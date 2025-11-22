@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsMac>false</IsMac>
+        <IsMac Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">true</IsMac>
+
+        <!-- For Windows users, please fill the folder path which contains Duckov.exe below -->
+        <!-- Windows 用户请在下面这行填写你的鸭科夫安装路径（包含 Duckov.exe 的目录），这样编译器就能找到相关的 dll 文件 -->
+        <DuckovPath>E:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov</DuckovPath>
+
+        <!-- For Mac users, please fill the folder path which contains Duckov.app below -->
+        <!-- Mac 用户请在下面这行填写你的鸭科夫安装路径（s包含 Duckov.app 的目录）-->
+        <DuckovPath Condition="'$(IsMac)'">/Users/Somebody/Library/Application Support/Steam/steamapps/common/Escape from Duckov</DuckovPath>
+
+        <SubPath>\Duckov_Data\Managed\</SubPath>
+        <SubPath Condition="'$(IsMac)'">/Duckov.app/Contents/Resources/Data/Managed/</SubPath>
+
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="$(DuckovPath)$(SubPath)TeamSoda.*">
+	      <Private>False</Private>
+	    </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)ItemStatsSystem.dll">
+	      <Private>False</Private>
+	    </Reference>
+        <Reference Include="$(DuckovPath)$(SubPath)Unity*">
+	      <Private>False</Private>
+	    </Reference>
+    </ItemGroup>
+</Project>
