@@ -19,13 +19,13 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="$(DuckovPath)$(SubPath)TeamSoda.*">
-	      <Private>False</Private>
+			<Private>False</Private>
 	    </Reference>
         <Reference Include="$(DuckovPath)$(SubPath)ItemStatsSystem.dll">
-	      <Private>False</Private>
+			<Private>False</Private>
 	    </Reference>
         <Reference Include="$(DuckovPath)$(SubPath)Unity*">
-	      <Private>False</Private>
+			<Private>False</Private>
 	    </Reference>
 		<Reference Include="$(DuckovPath)$(SubPath)Newtonsoft.Json.dll">
 			<Private>False</Private>
@@ -33,12 +33,15 @@
 		<Reference Include="$(DuckovPath)$(SubPath)SodaLocalization.dll">
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="$(DuckovPath)$(SubPath)ParadoxNotion.dll">
+			<Private>False</Private>
+		</Reference>
     </ItemGroup>
 	<ItemGroup>
 		<!-- All members in an assembly -->
-		<Publicize Include="$(DuckovPath)\Duckov_Data\Managed\TeamSoda.*" />
-		<Publicize Include="$(DuckovPath)\Duckov_Data\Managed\ItemStatsSystem.dll" />
-		<Publicize Include="$(DuckovPath)\Duckov_Data\Managed\SodaLocalization.dll" />
+		<Publicize Include="TeamSoda.Duckov.Core" IncludeVirtualMembers="false" />
+		<Publicize Include="TeamSoda.Duckov.Utilities" IncludeVirtualMembers="false" />
+		<Publicize Include="ItemStatsSystem" IncludeVirtualMembers="false" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="Resources\**" />
@@ -51,4 +54,5 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
 </Project>

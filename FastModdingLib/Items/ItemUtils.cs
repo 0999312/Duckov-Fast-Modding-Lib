@@ -1,11 +1,8 @@
 ﻿using Duckov.Buffs;
 using Duckov.ItemBuilders;
 using Duckov.ItemUsage;
-using Duckov.Modding;
 using Duckov.Utilities;
 using ItemStatsSystem;
-using ItemStatsSystem.Items;
-using SodaCraft.Localizations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,14 +11,14 @@ using System.Reflection;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace FastModdingLib
 {
-    public static class ItemUtils {
-
-        private static void createUsage(Item item, ItemData config) {
+    public static class ItemUtils
+    {
+        public static Dictionary<int, string> addedItemIds = new Dictionary<int, string>();
+        private static void createUsage(Item item, ItemData config)
+        {
             if (config.usages == null)
                 return;
 
@@ -31,18 +28,21 @@ namespace FastModdingLib
             FieldInfo useTimeField = typeof(UsageUtilities).GetField("useTime", BindingFlags.Instance | BindingFlags.NonPublic);
             if (useTimeField != null)
                 useTimeField.SetValueOptimized(usageUtilities, config.usages.useTime);
-            
-            SetPrivateField(item, "usageUtilities", usageUtilities);
 
-            if (config.usages.useSound != string.Empty) {
+            item.usageUtilities = usageUtilities;
+
+            if (config.usages.useSound != string.Empty)
+            {
                 usageUtilities.hasSound = true;
                 usageUtilities.useSound = config.usages.useSound;
             }
-            if (config.usages.actionSound != string.Empty) {
+            if (config.usages.actionSound != string.Empty)
+            {
                 usageUtilities.hasSound = true;
                 usageUtilities.actionSound = config.usages.actionSound;
             }
-            if (config.usages.useDurability && config.maxDurability > 0) {
+            if (config.usages.useDurability && config.maxDurability > 0)
+            {
                 usageUtilities.useDurability = true;
                 usageUtilities.durabilityUsage = config.usages.durabilityUsage;
             }
@@ -50,7 +50,7 @@ namespace FastModdingLib
             //item.AgentUtilities.CreateAgent();
             foreach (var behavior in config.usages.behaviors)
             {
-                 createBehavior(item, behavior, usageUtilities);
+                createBehavior(item, behavior, usageUtilities);
             }
 
         }
@@ -58,7 +58,7 @@ namespace FastModdingLib
         public static void createBehavior(Item item, UsageBehaviorData behaviorData, UsageUtilities usageUtilities)
         {
             if (behaviorData == null)
-                return ;
+                return;
 
             switch (behaviorData.Type)
             {
@@ -128,7 +128,7 @@ namespace FastModdingLib
                 StringBuilder assetLoc = new StringBuilder($"assets/textures/");
                 assetLoc.Append(resourceName);
                 string fileLoc = Path.Combine(modDirectory, assetLoc.ToString());
-                if(File.Exists(fileLoc) == false)
+                if (File.Exists(fileLoc) == false)
                 {
                     Debug.LogError("EmbeddedSprite is missing: " + fileLoc);
                     return null;
@@ -153,22 +153,35 @@ namespace FastModdingLib
             }
         }
 
-        public static void CreateCustomItem(string modPath, ItemData config)
+        public static void CreateCustomItem(string modPath, ItemData config, string modid = "old_fml_version")
         {
             Item component = ItemBuilder.New()
                 .TypeID(config.itemId)
                 .EnableStacking(config.maxStackCount, 1)
                 .Icon(ItemUtils.LoadEmbeddedSprite(modPath, config.spritePath, config.itemId))
                 .Instantiate();
-            UnityEngine.Object.DontDestroyOnLoad (component);
+            UnityEngine.Object.DontDestroyOnLoad(component);
             SetItemProperties(component, config);
-            RegisterItem(component);
+            RegisterItem(component, modid);
+        }
+
+        public static void CreateCustomBluePrint(BlueprintData config, string modid = "old_fml_version")
+        {
+            Item component = ItemBuilder.New()
+                .TypeID(config.itemId)
+                .Icon(ItemAssetsCollection.GetPrefab(285).icon)
+                .Instantiate();
+            UnityEngine.Object.DontDestroyOnLoad(component);
+            SetItemProperties(component, config);
+            ItemSetting_Formula formula = component.AddComponent<ItemSetting_Formula>();
+            formula.formulaID = config.formulaID;
+            RegisterItem(component, modid);
         }
 
         public static void SetItemProperties(Item item, ItemData config)
         {
-            SetPrivateField(item, "weight", config.weight);
-            
+            item.weight = config.weight;
+
             item.Order = config.order;
             item.Value = config.value;
             item.Quality = config.quality;
@@ -187,50 +200,48 @@ namespace FastModdingLib
 
         public static Tag GetTargetTag(string tagName)
         {
-            Tag[] source = Resources.FindObjectsOfTypeAll<Tag>();
-            return source.FirstOrDefault((Tag t) => t.name == tagName);
+            return GameplayDataSettings.Tags.Get(tagName);
         }
-        public static bool SetPrivateField(Item item, string fieldName, object value)
-        {
-            FieldInfo field = typeof(Item).GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
-            if (field != null)
-            {
-                field.SetValueOptimized(item, value);
-                return true;
-            }
-            Debug.LogWarning($"Couldn't find field: {fieldName}");
-            return false;
-        }
-        public static void RegisterItem(Item item)
+        public static void RegisterItem(Item item, string modid = "old_fml_version")
         {
             Debug.Log($"Start Register custom item: {item.TypeID} - {item.DisplayName}");
             ItemAssetsCollection.AddDynamicEntry(item);
+            ItemUtils.addedItemIds.Add(item.TypeID, modid);
             Debug.Log($"Registered custom item: {item.TypeID} - {item.DisplayName}");
         }
 
-        public static void RegisterGun(AssetBundle assetBundle, string name) {
-            //AUGA3
-            RegisterGun(assetBundle, name, 654);
-        }
-
-        public static void RegisterGun(AssetBundle assetBundle, string name, int originGunID)
+        public static void RegisterGun(AssetBundle assetBundle, string name, int originGunID = 654, string modid = "old_fml_version")
         {
             var gameobject = assetBundle.LoadAsset<GameObject>(name);
             Item prefab = gameobject.GetComponent<Item>();
+            //prefab.Slots["1"];
             Item rifle = ItemAssetsCollection.GetPrefab(originGunID);
+
+            prefab.Tags.Clear();
+            prefab.Tags.AddRange(rifle.Tags);
+
+            foreach (var slot in prefab.Slots)
+            {
+                if (slot.Key.Equals("Muzzle") || slot.Key.Equals("Stock") || slot.Key.Equals("Mag"))
+                    if (rifle.Slots[slot.Key] != null)
+                    {
+                        prefab.Slots[slot.Key].requireTags = rifle.Slots[slot.Key].requireTags;
+                        prefab.Slots[slot.Key].excludeTags = rifle.Slots[slot.Key].excludeTags;
+                    }
+            }
             ItemSetting_Gun rifleSetting = rifle.GetComponent<ItemSetting_Gun>();
             ItemSetting_Gun setting = prefab.GetComponent<ItemSetting_Gun>();
             setting.muzzleFxPfb = rifleSetting.muzzleFxPfb;
             setting.bulletPfb = rifleSetting.bulletPfb;
 
-            ItemUtils.RegisterItem(prefab);
+            ItemUtils.RegisterItem(prefab, modid);
         }
 
-        public static void RegisterItemFromBundle(AssetBundle assetBundle, string name)
+        public static void RegisterItemFromBundle(AssetBundle assetBundle, string name, string modid = "old_fml_version")
         {
             var gameobject = assetBundle.LoadAsset<GameObject>(name);
             Item prefab = gameobject.GetComponent<Item>();
-            ItemUtils.RegisterItem(prefab);
+            ItemUtils.RegisterItem(prefab, modid);
         }
 
         public static void UnregisterItem(Item item)
@@ -238,5 +249,18 @@ namespace FastModdingLib
             ItemAssetsCollection.RemoveDynamicEntry(item);
             Debug.Log($"Unregistered custom item: {item.TypeID}");
         }
+
+        public static void UnregisterAllItem(string modid = "old_fml_version")
+        {
+            foreach (var itemId in ItemUtils.addedItemIds.ToList())
+            {
+                Item item = ItemAssetsCollection.GetPrefab(itemId.Key);
+                if (item != null)
+                {
+                    ItemUtils.UnregisterItem(item);
+                }
+                ItemUtils.addedItemIds.Remove(itemId.Key);
+            }
+        }
     }
-}  
+}

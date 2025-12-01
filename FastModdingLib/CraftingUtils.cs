@@ -3,19 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 namespace FastModdingLib
 {
-    public static class CraftingUtils 
+    public static class CraftingUtils
     {
-        public static List<string> addedFormulaIds = new List<string>();
+        public static Dictionary<string, string> addedFormulaIds = new Dictionary<string, string>();
 
-        public static List<int> addedFormulaResults = new List<int>();
+        public static Dictionary<int, string> addedFormulaResults = new Dictionary<int, string>();
 
-        public static List<int> addedDecomposeItemIds = new List<int>();
-        public static void AddDecomposeFormula(int itemId, long money, (int id, long amount)[] resultItems)
+        public static Dictionary<int, string> addedDecomposeItemIds = new Dictionary<int, string>();
+        public static void AddDecomposeFormula(int itemId, long money, (int id, long amount)[] resultItems, string modid = "old_fml_version")
         {
             DecomposeDatabase instance = DecomposeDatabase.Instance;
             FieldInfo field = typeof(DecomposeDatabase).GetField("entries", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -26,7 +25,8 @@ namespace FastModdingLib
                 if (item2.item == itemId && item2.result.items.Any())
                 {
                     Debug.LogWarning($"Existed decompose formula, item: {itemId}");
-                    foreach(var itemResult in item2.result.items){
+                    foreach (var itemResult in item2.result.items)
+                    {
                         Debug.LogWarning($"itemResult: {itemResult.id} : {itemResult.amount}");
                     }
                     return;
@@ -54,15 +54,15 @@ namespace FastModdingLib
             item.result = result;
             list.Add(item);
             field.SetValue(instance, list.ToArray());
-            if (!addedDecomposeItemIds.Contains(itemId))
+            if (!addedDecomposeItemIds.ContainsKey(itemId))
             {
-                addedDecomposeItemIds.Add(itemId);
+                addedDecomposeItemIds.Add(itemId, modid);
             }
             Debug.Log($"Added decompose: {itemId}");
             typeof(DecomposeDatabase).GetMethod("RebuildDictionary", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(instance, null);
         }
 
-        public static void RemoveAllAddedDecomposeFormulas()
+        public static void RemoveAllAddedDecomposeFormulas(string modid = "old_fml_version")
         {
             try
             {
@@ -73,7 +73,7 @@ namespace FastModdingLib
                 int num = 0;
                 for (int num2 = list.Count - 1; num2 >= 0; num2--)
                 {
-                    if (addedDecomposeItemIds.Contains(list[num2].item))
+                    if (addedDecomposeItemIds.ContainsKey(list[num2].item))
                     {
                         Debug.Log($"Remove decompose formula: {list[num2].item}");
                         list.RemoveAt(num2);
@@ -90,9 +90,7 @@ namespace FastModdingLib
                 Debug.LogError($"Exception at removing decompose formula: {arg}");
             }
         }
-
-
-        public static void AddCraftingFormula(string formulaId, long money, (int id, long amount)[] costItems, int resultItemId, int resultItemAmount, string[] tags = null, string requirePerk = "", bool unlockByDefault = true, bool hideInIndex = false, bool lockInDemo = false)
+        public static void AddCraftingFormula(string formulaId, long money, (int id, long amount)[] costItems, int resultItemId, int resultItemAmount, string[] tags = null, string requirePerk = "", bool unlockByDefault = true, bool hideInIndex = false, bool lockInDemo = false, string modid = "old_fml_version")
         {
             CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
             FieldInfo field = typeof(CraftingFormulaCollection).GetField("list", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -136,17 +134,15 @@ namespace FastModdingLib
             item.hideInIndex = hideInIndex;
             item.lockInDemo = lockInDemo;
             list.Add(item);
-            if (!addedFormulaIds.Contains(formulaId))
+            if (!addedFormulaIds.ContainsKey(formulaId))
             {
-                addedFormulaIds.Add(formulaId);
-                addedFormulaResults.Add(resultItemId);
+                addedFormulaIds.Add(formulaId, modid);
             }
             Debug.Log("Added crafting formula: " + formulaId);
             FieldInfo field2 = typeof(CraftingFormulaCollection).GetField("_entries_ReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
             field2.SetValue(instance, null);
         }
-
-        public static void RemoveAllAddedFormulas()
+        public static void RemoveAllAddedFormulas(string modid = "old_fml_version")
         {
             try
             {
@@ -156,7 +152,7 @@ namespace FastModdingLib
                 int num = 0;
                 for (int num2 = list.Count - 1; num2 >= 0; num2--)
                 {
-                    if (addedFormulaIds.Contains(list[num2].id))
+                    if (addedFormulaIds.ContainsKey(list[num2].id))
                     {
                         Debug.Log("Remove Formula: " + list[num2].id);
                         list.RemoveAt(num2);

@@ -1,11 +1,7 @@
-﻿using JetBrains.Annotations;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
-using System.Xml.Linq;
 using UnityEngine;
 
 namespace FastModdingLib
@@ -25,7 +21,7 @@ namespace FastModdingLib
         };
         public static void InitI18n(string modPath)
         {
-            SodaCraft.Localizations.LocalizationManager.OnSetLanguage += (lang) =>
+            SodaCraft.Localizations.LocalizationManager.OnSetLanguage += (SystemLanguage lang) =>
             {
                 if (I18n.localizedNames.ContainsKey(lang))
                 {
@@ -38,7 +34,8 @@ namespace FastModdingLib
             };
         }
 
-        public static void loadFileJson(string modPath, string loc) {
+        public static void loadFileJson(string modPath, string loc)
+        {
             string modDirectory = Path.GetDirectoryName(modPath);
             StringBuilder assetLoc = new StringBuilder($"assets/lang");
             assetLoc.Append(loc);
@@ -57,7 +54,8 @@ namespace FastModdingLib
                     SodaCraft.Localizations.LocalizationManager.SetOverrideText(key, value);
                 }
             }
-            else {
+            else
+            {
                 if (File.Exists(localizedNames[SystemLanguage.English]) == false)
                 {
                     Debug.LogError($"[I18n] Location {assetLoc.ToString()} doesn't have any language files, report it to modder");
@@ -66,7 +64,7 @@ namespace FastModdingLib
                 Debug.LogWarning($"[I18n] Language file {loc} not found, fallback to en_us.json");
                 I18n.loadFileJson(modPath, $"/{I18n.localizedNames[SystemLanguage.English]}");
             }
-            
+
         }
     }
 }

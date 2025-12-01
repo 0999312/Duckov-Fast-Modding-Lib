@@ -1,9 +1,7 @@
 ﻿using Duckov.Buffs;
 using ItemStatsSystem;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace FastModdingLib
@@ -22,10 +20,23 @@ namespace FastModdingLib
         public DisplayQuality displayQuality = DisplayQuality.None;
         public string spritePath = string.Empty;
         public List<string> tags = new List<string>();
-        public UsageData? usages;  
+        public UsageData? usages;
     }
 
-    public class UsageData {
+    public class BlueprintData : ItemData
+    {
+        public new float weight = 0.1F;
+        public new int value = 50;
+        public new int maxStackCount = 1;
+        public new float maxDurability = 0f;
+        public new DisplayQuality displayQuality = DisplayQuality.None;
+        public new string spritePath = string.Empty;
+        public new UsageData? usages = null;
+        public string formulaID = string.Empty;
+    }
+
+    public class UsageData
+    {
         public string actionSound = string.Empty;
         public string useSound = string.Empty;
         public bool useDurability = false;
@@ -36,7 +47,7 @@ namespace FastModdingLib
     }
     public abstract class UsageBehaviorData
     {
-        public abstract string Type { get;}
+        public abstract string Type { get; }
     }
     public class FoodData : UsageBehaviorData
     {
@@ -48,20 +59,21 @@ namespace FastModdingLib
     public class HealData : UsageBehaviorData
     {
         public int healValue;
-        public override string Type { get; } = "Drug"; 
+        public override string Type { get; } = "Drug";
     }
 
     public class AddBuffData : UsageBehaviorData
     {
-       public int buff;
-       public float chance = 1f;
-       public override string Type { get; } = "AddBuff";
+        public int buff;
+        public float chance = 1f;
+        public override string Type { get; } = "AddBuff";
 
-       public static Buff FindBuff(int id) {
-           Buff[] allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
-           Buff buffPrefab = allBuffs.FirstOrDefault(b => b != null && b.ID == id);
-           return buffPrefab;
-       }
+        public static Buff FindBuff(int id)
+        {
+            Buff[] allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
+            Buff buffPrefab = allBuffs.FirstOrDefault(b => b != null && b.ID == id);
+            return buffPrefab;
+        }
     }
 
     public class RemoveBuffData : UsageBehaviorData
