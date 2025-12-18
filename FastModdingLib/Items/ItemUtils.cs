@@ -1,13 +1,10 @@
-﻿using Duckov.Buffs;
-using Duckov.ItemBuilders;
-using Duckov.ItemUsage;
+﻿using Duckov.ItemBuilders;
 using Duckov.Utilities;
 using ItemStatsSystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,9 +22,7 @@ namespace FastModdingLib
             item.AddUsageUtilitiesComponent();
             UsageUtilities usageUtilities = item.UsageUtilities;
 
-            FieldInfo useTimeField = typeof(UsageUtilities).GetField("useTime", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (useTimeField != null)
-                useTimeField.SetValueOptimized(usageUtilities, config.usages.useTime);
+            usageUtilities.useTime = config.usages.useTime;
 
             item.usageUtilities = usageUtilities;
 
@@ -60,64 +55,7 @@ namespace FastModdingLib
             if (behaviorData == null)
                 return;
 
-            switch (behaviorData.Type)
-            {
-                case "FoodDrink":
-                    {
-                        FoodData? foodData = behaviorData as FoodData;
-                        if (foodData != null)
-                        {
-                            FoodDrink foodDrinkBehavior = item.AddComponent<FoodDrink>();
-                            foodDrinkBehavior.energyValue = foodData.energyValue;
-                            foodDrinkBehavior.waterValue = foodData.waterValue;
-                            usageUtilities.behaviors.Add(foodDrinkBehavior);
-                            return;
-                        }
-                        break;
-                    }
-                case "Drug":
-                    {
-                        HealData? healData = behaviorData as HealData;
-                        if (healData != null)
-                        {
-                            Drug drugBehavior = item.AddComponent<Drug>();
-                            drugBehavior.healValue = healData.healValue;
-                            usageUtilities.behaviors.Add(drugBehavior);
-                            return;
-                        }
-                        break;
-                    }
-                case "AddBuff":
-                    {
-                        AddBuffData? addBuffData = behaviorData as AddBuffData;
-                        Buff? buff = addBuffData != null ? AddBuffData.FindBuff(addBuffData.buff) : null;
-                        if (addBuffData != null && buff != null)
-                        {
-                            AddBuff addBuffBehavior = item.AddComponent<AddBuff>();
-                            addBuffBehavior.buffPrefab = buff;
-                            addBuffBehavior.chance = addBuffData.chance;
-                            usageUtilities.behaviors.Add(addBuffBehavior);
-                            return;
-                        }
-                        break;
-                    }
-                case "RemoveBuff":
-                    {
-                        RemoveBuffData? removeBuffData = behaviorData as RemoveBuffData;
-                        if (removeBuffData != null)
-                        {
-                            RemoveBuff buffBehavior = item.AddComponent<RemoveBuff>();
-                            buffBehavior.buffID = removeBuffData.buffID;
-                            buffBehavior.removeLayerCount = removeBuffData.removeLayerCount;
-                            usageUtilities.behaviors.Add(buffBehavior);
-                            return;
-                        }
-                        break;
-                    }
-                default:
-                    break;
-            }
-            Debug.LogError($"unexpected usage type: {behaviorData.Type}");
+            usageUtilities.behaviors.Add(behaviorData.GetBehavior(item));
         }
 
         public static Sprite? LoadEmbeddedSprite(string modPath, string resourceName, int NEW_ITEM_ID)
@@ -155,11 +93,18 @@ namespace FastModdingLib
 
         public static void CreateCustomItem(string modPath, ItemData config, string modid = "old_fml_version")
         {
-            Item component = ItemBuilder.New()
+            ItemBuilder itemBuilder = ItemBuilder.New()
                 .TypeID(config.itemId)
                 .EnableStacking(config.maxStackCount, 1)
-                .Icon(ItemUtils.LoadEmbeddedSprite(modPath, config.spritePath, config.itemId))
+                .Icon(ItemUtils.LoadEmbeddedSprite(modPath, config.spritePath, config.itemId));
+
+            config.modifiers.ForEach(modifier => {
+                itemBuilder.Modifier(modifier.getModifier());
+            });
+
+            Item component = itemBuilder
                 .Instantiate();
+
             UnityEngine.Object.DontDestroyOnLoad(component);
             SetItemProperties(component, config);
             RegisterItem(component, modid);
@@ -228,9 +173,22 @@ namespace FastModdingLib
                         prefab.Slots[slot.Key].requireTags = rifle.Slots[slot.Key].requireTags;
                         prefab.Slots[slot.Key].excludeTags = rifle.Slots[slot.Key].excludeTags;
                     }
+                //if (slot.Key.Equals("Special")) 
+                //{
+                //    List<Tag> tags = new List<Tag>();
+                //    foreach (var item in prefab.Slots[slot.Key].requireTags)
+                //    {
+                //        Tag tag = ItemUtils.GetTargetTag(item.displayNameKey);
+                //        tags.Add(tag);
+                //    }
+                //    prefab.Slots[slot.Key].requireTags.Clear();
+                //    prefab.Slots[slot.Key].requireTags.AddRange(tags);
+                //}
             }
+            
             ItemSetting_Gun rifleSetting = rifle.GetComponent<ItemSetting_Gun>();
             ItemSetting_Gun setting = prefab.GetComponent<ItemSetting_Gun>();
+            setting.adsAimMarker = rifleSetting.adsAimMarker;
             setting.muzzleFxPfb = rifleSetting.muzzleFxPfb;
             setting.bulletPfb = rifleSetting.bulletPfb;
 

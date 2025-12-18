@@ -36,6 +36,9 @@
 		<Reference Include="$(DuckovPath)$(SubPath)ParadoxNotion.dll">
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="$(DuckovPath)$(SubPath)UniTask*">
+			<Private>False</Private>
+		</Reference>
     </ItemGroup>
 	<ItemGroup>
 		<!-- All members in an assembly -->

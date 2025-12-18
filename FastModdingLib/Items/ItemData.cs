@@ -1,8 +1,14 @@
 ﻿using Duckov.Buffs;
+using Duckov.ItemUsage;
+using Duckov.Quests;
+using Duckov.Utilities;
 using ItemStatsSystem;
+using ItemStatsSystem.Stats;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FastModdingLib
 {
@@ -21,6 +27,24 @@ namespace FastModdingLib
         public string spritePath = string.Empty;
         public List<string> tags = new List<string>();
         public UsageData? usages;
+        public List<ModifierData> modifiers = new List<ModifierData>();
+    }
+
+    public class ModifierData 
+    {
+        public ModifierTarget target;
+        public string key = string.Empty;
+        public ModifierType type;
+        public float value = 1F;
+        public bool overrideOrder = false;
+        public int overrideOrderValue = 0;
+        public bool display = true;
+
+        public ModifierDescription getModifier() {
+            ModifierDescription modifierDescription = new ModifierDescription(target, key, type, value, overrideOrder, overrideOrderValue);
+            modifierDescription.display = display;
+            return modifierDescription;
+        }
     }
 
     public class BlueprintData : ItemData
@@ -47,32 +71,46 @@ namespace FastModdingLib
     }
     public abstract class UsageBehaviorData
     {
-        public abstract string Type { get; }
+        public abstract UsageBehavior GetBehavior(Item item);
     }
     public class FoodData : UsageBehaviorData
     {
         public float energyValue;
         public float waterValue;
-        public override string Type { get; } = "FoodDrink";
+        public override UsageBehavior GetBehavior(Item item) {
+            FoodDrink foodDrinkBehavior = item.AddComponent<FoodDrink>();
+            foodDrinkBehavior.energyValue = this.energyValue;
+            foodDrinkBehavior.waterValue = this.waterValue;
+            return foodDrinkBehavior;
+        }
     }
 
     public class HealData : UsageBehaviorData
     {
         public int healValue;
-        public override string Type { get; } = "Drug";
+        public override UsageBehavior GetBehavior(Item item)
+        {
+            Drug drugBehavior = item.AddComponent<Drug>();
+            drugBehavior.healValue = this.healValue;
+            return drugBehavior;
+        }
     }
 
     public class AddBuffData : UsageBehaviorData
     {
         public int buff;
         public float chance = 1f;
-        public override string Type { get; } = "AddBuff";
+        public override UsageBehavior GetBehavior(Item item)
+        {
+            AddBuff addBuffBehavior = item.AddComponent<AddBuff>();
+            addBuffBehavior.buffPrefab = FindBuff(buff);
+            addBuffBehavior.chance = this.chance;
+            return addBuffBehavior;
+        }
 
         public static Buff FindBuff(int id)
         {
-            Buff[] allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
-            Buff buffPrefab = allBuffs.FirstOrDefault(b => b != null && b.ID == id);
-            return buffPrefab;
+            return GameplayDataSettings.Buffs.allBuffs.Find(buff=>buff.id == id);
         }
     }
 
@@ -80,6 +118,25 @@ namespace FastModdingLib
     {
         public int buffID;
         public int removeLayerCount = 2;
-        public override string Type { get; } = "RemoveBuff";
+        public override UsageBehavior GetBehavior(Item item)
+        {
+            RemoveBuff buffBehavior = item.AddComponent<RemoveBuff>();
+            buffBehavior.buffID = this.buffID;
+            buffBehavior.removeLayerCount = this.removeLayerCount;
+            return buffBehavior;
+        }
+    }
+
+    public class ReturnItemData : UsageBehaviorData
+    {
+        public int itemTypeID;
+        public bool display;
+        public override UsageBehavior GetBehavior(Item item)
+        {
+            ReturnItem behavior = item.AddComponent<ReturnItem>();
+            behavior.ItemTypeID = this.itemTypeID;
+            behavior.showItemName = this.display;
+            return behavior;
+        }
     }
 }

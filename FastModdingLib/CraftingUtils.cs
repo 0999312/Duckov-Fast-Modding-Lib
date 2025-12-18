@@ -17,8 +17,8 @@ namespace FastModdingLib
         public static void AddDecomposeFormula(int itemId, long money, (int id, long amount)[] resultItems, string modid = "old_fml_version")
         {
             DecomposeDatabase instance = DecomposeDatabase.Instance;
-            FieldInfo field = typeof(DecomposeDatabase).GetField("entries", BindingFlags.Instance | BindingFlags.NonPublic);
-            DecomposeFormula[] collection = (DecomposeFormula[])field.GetValue(instance);
+
+            DecomposeFormula[] collection = instance.entries;
             List<DecomposeFormula> list = new List<DecomposeFormula>(collection);
             foreach (DecomposeFormula item2 in list)
             {
@@ -53,7 +53,7 @@ namespace FastModdingLib
             result.items = array;
             item.result = result;
             list.Add(item);
-            field.SetValue(instance, list.ToArray());
+            collection = list.ToArray();
             if (!addedDecomposeItemIds.ContainsKey(itemId))
             {
                 addedDecomposeItemIds.Add(itemId, modid);
@@ -67,8 +67,8 @@ namespace FastModdingLib
             try
             {
                 DecomposeDatabase instance = DecomposeDatabase.Instance;
-                FieldInfo field = typeof(DecomposeDatabase).GetField("entries", BindingFlags.Instance | BindingFlags.NonPublic);
-                DecomposeFormula[] collection = (DecomposeFormula[])field.GetValue(instance);
+
+                DecomposeFormula[] collection = instance.entries;
                 List<DecomposeFormula> list = new List<DecomposeFormula>(collection);
                 int num = 0;
                 for (int num2 = list.Count - 1; num2 >= 0; num2--)
@@ -80,7 +80,7 @@ namespace FastModdingLib
                         num++;
                     }
                 }
-                field.SetValue(instance, list.ToArray());
+                collection = list.ToArray();
                 addedDecomposeItemIds.Clear();
                 typeof(DecomposeDatabase).GetMethod("RebuildDictionary", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(instance, null);
                 Debug.Log($"Removed {num} decompose formulas");
@@ -93,8 +93,7 @@ namespace FastModdingLib
         public static void AddCraftingFormula(string formulaId, long money, (int id, long amount)[] costItems, int resultItemId, int resultItemAmount, string[] tags = null, string requirePerk = "", bool unlockByDefault = true, bool hideInIndex = false, bool lockInDemo = false, string modid = "old_fml_version")
         {
             CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
-            FieldInfo field = typeof(CraftingFormulaCollection).GetField("list", BindingFlags.Instance | BindingFlags.NonPublic);
-            List<CraftingFormula> list = (List<CraftingFormula>)field.GetValue(instance);
+            List<CraftingFormula> list = instance.list;
             foreach (CraftingFormula item2 in list)
             {
                 if (item2.id == formulaId)
@@ -139,16 +138,13 @@ namespace FastModdingLib
                 addedFormulaIds.Add(formulaId, modid);
             }
             Debug.Log("Added crafting formula: " + formulaId);
-            FieldInfo field2 = typeof(CraftingFormulaCollection).GetField("_entries_ReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-            field2.SetValue(instance, null);
         }
         public static void RemoveAllAddedFormulas(string modid = "old_fml_version")
         {
             try
             {
                 CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
-                FieldInfo field = typeof(CraftingFormulaCollection).GetField("list", BindingFlags.Instance | BindingFlags.NonPublic);
-                List<CraftingFormula> list = (List<CraftingFormula>)field.GetValue(instance);
+                List<CraftingFormula> list = instance.list;
                 int num = 0;
                 for (int num2 = list.Count - 1; num2 >= 0; num2--)
                 {
@@ -160,8 +156,6 @@ namespace FastModdingLib
                     }
                 }
                 addedFormulaIds.Clear();
-                FieldInfo field2 = typeof(CraftingFormulaCollection).GetField("_entries_ReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-                field2.SetValue(instance, null);
                 Debug.Log($"Removed {num} crafting formulas");
             }
             catch (Exception arg)

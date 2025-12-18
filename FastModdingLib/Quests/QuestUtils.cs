@@ -15,10 +15,7 @@ namespace FastModdingLib
         public static Dictionary<Quest, string> addedQuests = new Dictionary<Quest, string>();
         public static void RegisterQuest(QuestData data, string modid = "FastModdingLib")
         {
-            GameObject obj = new GameObject($"Quest_{data.displayName}");
-            UnityEngine.Object.DontDestroyOnLoad(obj);
-
-            Quest quest = obj.AddComponent<Quest>();
+            Quest quest = new GameObject($"Quest_{data.displayName}").AddComponent<Quest>();
             UnityEngine.Object.DontDestroyOnLoad(quest);
             quest.DisplayNameRaw = data.displayName;
             quest.DescriptionRaw = data.description;
@@ -26,7 +23,12 @@ namespace FastModdingLib
             quest.QuestGiverID = data.questGiver;
             quest.requireLevel = data.requireLevel;
             
-            if(data.requireItemID != -1)
+            if(data.requireScene != null && data.requireScene != "")
+            {
+                quest.requireSceneID = data.requireScene;
+            }
+
+            if (data.requireItemID != -1)
             {
                 quest.requiredItemID = data.requireItemID;
                 quest.requiredItemCount = 1;
@@ -49,9 +51,15 @@ namespace FastModdingLib
                     quest.rewards.Add(reward);
                 }
             }
-
             GameplayDataSettings.QuestCollection.Add(quest);
+            quest.needInspection = true;
             addedQuests.Add(quest, modid);
+            Debug.Log($"[FML] Registered quest: {data.displayName} (ID: {data.ID}) from mod: {modid}");
+            foreach (var item in quest.tasks)
+            {
+                Debug.Log($"[FML] Task:{item.gameObject.name}, {item.master.name}");
+            }
+            
         }
 
         public static void UnregisterQuest(int ID)
@@ -108,5 +116,6 @@ namespace FastModdingLib
 
             GameplayDataSettings.QuestRelation.allNodes.Add(item);
         }
+
     }
 }
