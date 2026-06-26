@@ -24,7 +24,7 @@ namespace FastModdingLib.Audio
             string filePath = data.Path;
             if (!File.Exists(filePath))
                 Debug.Log("[Audio] File don't exist: " + filePath);
-            if (!AudioManager.TryCreateEventInstance("SFX/custom_loop", out var eventInstance))
+            if (!AudioManager.TryCreateEventInstance("SFX/custom", out var eventInstance))
             {
                 __result = null;
                 return false;
