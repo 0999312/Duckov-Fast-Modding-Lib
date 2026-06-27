@@ -7,8 +7,6 @@ namespace FastModdingLib
     {
         public void Awake() {
             
-
-            
         }
         protected override void OnAfterSetup()
         {

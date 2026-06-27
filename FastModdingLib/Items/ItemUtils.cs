@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FastModdingLib.Register;
+using FastModdingLib.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -47,7 +49,6 @@ namespace FastModdingLib
             {
                 createBehavior(item, behavior, usageUtilities);
             }
-
         }
 
         public static void createBehavior(Item item, UsageBehaviorData behaviorData, UsageUtilities usageUtilities)
@@ -111,7 +112,7 @@ namespace FastModdingLib
             return component;
         }
 
-        public static void CreateCustomItem(string modPath, ItemData config, string modid = "old_fml_version")
+        public static void CreateCustomItem(Identifier id, string modPath, ItemData config, string modid = "old_fml_version")
         {
             ItemBuilder itemBuilder = ItemBuilder.New()
                 .TypeID(config.itemId)
@@ -127,10 +128,10 @@ namespace FastModdingLib
 
             UnityEngine.Object.DontDestroyOnLoad(component);
             SetItemProperties(component, config);
-            RegisterItem(component, modid);
+            RegisterItem(id, component, modid);
         }
 
-        public static void CreateCustomBluePrint(BlueprintData config, string modid = "old_fml_version")
+        public static void CreateCustomBluePrint(Identifier id, BlueprintData config, string modid = "old_fml_version")
         {
             Item component = ItemBuilder.New()
                 .TypeID(config.itemId)
@@ -140,7 +141,7 @@ namespace FastModdingLib
             SetItemProperties(component, config);
             ItemSetting_Formula formula = component.AddComponent<ItemSetting_Formula>();
             formula.formulaID = config.formulaID;
-            RegisterItem(component, modid);
+            RegisterItem(id, component, modid);
         }
 
         public static void SetItemProperties(Item item, ItemData config)
@@ -172,15 +173,28 @@ namespace FastModdingLib
         {
             return GameplayDataSettings.Tags.Get(tagName);
         }
-        public static void RegisterItem(Item item, string modid = "old_fml_version")
+
+        private static int lastKnownUsed = -1;
+        
+        public static void RegisterItem(Identifier id, Item item, string modid = "old_fml_version")
         {
             Debug.Log($"Start Register custom item: {item.TypeID} - {item.DisplayName}");
+            if (ItemAssetsCollection.Instance.GetEntry(item.TypeID) != null)
+            {
+                do
+                {
+                    lastKnownUsed++;
+                } while (ItemAssetsCollection.Instance.GetEntry(lastKnownUsed) != null);
+
+                item.TypeID = lastKnownUsed;
+            }
             ItemAssetsCollection.AddDynamicEntry(item);
             ItemUtils.addedItemIds.Add(item.TypeID, modid);
+            RegistryManager.Instance.ItemID.Set(id, item.TypeID);
             Debug.Log($"Registered custom item: {item.TypeID} - {item.DisplayName}");
         }
 
-        public static void RegisterGun(AssetBundle assetBundle, string name, int originGunID = 654, string modid = "old_fml_version")
+        public static void RegisterGun(Identifier id, AssetBundle assetBundle, string name, int originGunID = 654, string modid = "old_fml_version")
         {
             var gameobject = assetBundle.LoadAsset<GameObject>(name);
             Item prefab = gameobject.GetComponent<Item>();
@@ -206,14 +220,14 @@ namespace FastModdingLib
             setting.muzzleFxPfb = rifleSetting.muzzleFxPfb;
             setting.bulletPfb = rifleSetting.bulletPfb;
 
-            ItemUtils.RegisterItem(prefab, modid);
+            ItemUtils.RegisterItem(id, prefab, modid);
         }
 
-        public static void RegisterItemFromBundle(AssetBundle assetBundle, string name, string modid = "old_fml_version")
+        public static void RegisterItemFromBundle(Identifier id, AssetBundle assetBundle, string name, string modid = "old_fml_version")
         {
             var gameobject = assetBundle.LoadAsset<GameObject>(name);
             Item prefab = gameobject.GetComponent<Item>();
-            ItemUtils.RegisterItem(prefab, modid);
+            ItemUtils.RegisterItem(id, prefab, modid);
         }
 
         public static void UnregisterItem(Item item)
@@ -235,7 +249,7 @@ namespace FastModdingLib
             }
         }
 
-        public static void CreateCustomBullet(BulletData config, string modPath, string modid = "TopTierWeaponExpansion")
+        public static void CreateCustomBullet(Identifier id, BulletData config, string modPath, string modid = "TopTierWeaponExpansion")
         {
             Item component = ItemBuilder.New()
                 .TypeID(config.itemId)
@@ -262,7 +276,7 @@ namespace FastModdingLib
             UnityEngine.Object.DontDestroyOnLoad(component);
             ItemUtils.SetItemProperties(component, config);
             ItemSetting_Bullet setting = component.AddComponent<ItemSetting_Bullet>();
-            ItemUtils.RegisterItem(component, modid);
+            ItemUtils.RegisterItem(id, component, modid);
         }
     }
 }

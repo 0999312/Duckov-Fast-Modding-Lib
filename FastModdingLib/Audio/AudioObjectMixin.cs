@@ -3,7 +3,10 @@ using FMOD.Studio;
 using HarmonyLib;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using FastModdingLib.Utils;
+using FMODUnity;
 using UnityEngine;
 
 namespace FastModdingLib.Audio
@@ -15,22 +18,33 @@ namespace FastModdingLib.Audio
         public static bool Prefix(AudioObject __instance, ref EventInstance? __result, string eventName, bool doRelease)
         {
             Debug.Log($"AudioObjectMixin: Post called with eventName: {eventName}");
-            if (eventName.Contains(':'))
+            Identifier? id = AudioUtil.Instance.GetIdentifier(eventName);
+            if (id is null) return true;
+            AudioData data = AudioUtil.Instance.dataRegistry[id];
+            string filePath = data.Path;
+            if (!File.Exists(filePath))
+                Debug.Log("[Audio] File don't exist: " + filePath);
+            if (!AudioManager.TryCreateEventInstance("SFX/custom", out var eventInstance))
             {
-                string modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string path = eventName.Substring(eventName.IndexOf(":")+1);
-                Debug.Log($"AudioObjectMixin:{modDirectory}:{path}");
-                string assetLoc = $"assets/sounds/{path}.ogg";
-                string fileLoc = Path.Combine(modDirectory, assetLoc.ToString());
-                if (File.Exists(fileLoc) == true)
-                {
-                    __result = __instance.PostCustomSFX(fileLoc, doRelease);
-                    return false;
-                }
-                Debug.Log("File Not Found :"+ fileLoc);
+                __result = null;
+                return false;
             }
-            return true;
-           
+            __instance.events.Add(eventInstance);
+            GCHandle gcHandle = GCHandle.Alloc(filePath);
+            eventInstance.setProperty(EVENT_PROPERTY.MINIMUM_DISTANCE, data.MinDistance);
+            eventInstance.setProperty(EVENT_PROPERTY.MAXIMUM_DISTANCE, data.MaxDistance);
+            eventInstance.set3DAttributes(__instance.gameObject.transform.position.To3DAttributes());
+            __instance.ApplyParameters(eventInstance);
+            eventInstance.setUserData(GCHandle.ToIntPtr(gcHandle));
+            eventInstance.setCallback(AudioObject.CustomSFXCallback);
+            eventInstance.start();
+            if (doRelease)
+            {
+                eventInstance.release();
+            }
+
+            __result = eventInstance;
+            return false;
         }
     }
 }
