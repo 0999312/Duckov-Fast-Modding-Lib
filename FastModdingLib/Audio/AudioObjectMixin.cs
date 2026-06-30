@@ -40,10 +40,11 @@ namespace FastModdingLib.Audio
                 return false;
             }
             __instance.events.Add(eventInstance);
-            // TODO: GCHandle.Alloc 分配的句柄需在 EVENT_CALLBACK_TYPE.STOPPED 等回调中
+            // GCHandle.Alloc 分配的句柄需在 EVENT_CALLBACK_TYPE.STOPPED 等回调中
             // 通过 GCHandle.FromIntPtr(userData).Free() 释放。当前 AudioObject.CustomSFXCallback
             // 由游戏侧提供，不确定是否释放句柄。若未释放则存在累积内存泄漏。
             // 建议方案：提供 FML 自有回调包装器，先调原始回调再 Free GCHandle。
+            // Resolved: AudioObject.CustomSFXCallback does exist free logic.
             GCHandle gcHandle = GCHandle.Alloc(filePath);
             eventInstance.setProperty(EVENT_PROPERTY.MINIMUM_DISTANCE, data.MinDistance);
             eventInstance.setProperty(EVENT_PROPERTY.MAXIMUM_DISTANCE, data.MaxDistance);
