@@ -51,11 +51,11 @@ namespace FastModdingLib.Modding
             LogSortResult(modInfos);
         }
 
-        private static List<int>[] BuildGraph(List<ModInfo> modInfos, Dictionary<string, int> nameToIndex)
+        private static HashSet<int>[] BuildGraph(List<ModInfo> modInfos, Dictionary<string, int> nameToIndex)
         {
             int n = modInfos.Count;
-            var graph = new List<int>[n];
-            for (int i = 0; i < n; i++) graph[i] = new List<int>();
+            var graph = new HashSet<int>[n];
+            for (int i = 0; i < n; i++) graph[i] = new HashSet<int>();
 
             // 重新构建索引（排序后）
             nameToIndex.Clear();
@@ -76,6 +76,7 @@ namespace FastModdingLib.Modding
 
                 AddHardEdges(meta.Dependencies);
                 AddSoftEdges(meta.LoadAfter);
+                AddSoftEdgesReversed(meta.LoadBefore);
 
                 void AddHardEdges(ModDependency[]? deps)
                 {
@@ -109,6 +110,19 @@ namespace FastModdingLib.Modding
                     }
                 }
 
+                void AddSoftEdgesReversed(string[]? targets)
+                {
+                    if (targets == null) return;
+                    foreach (var targetName in targets)
+                    {
+                        if (string.IsNullOrEmpty(targetName)) continue;
+                        if (nameToIndex.TryGetValue(targetName, out int targetIdx) && targetIdx != i)
+                        {
+                            graph[i].Add(targetIdx);
+                        }
+                    }
+                }
+
                 int? ResolveDepIndex(ModDependency dep)
                 {
                     // Name 优先
@@ -123,7 +137,7 @@ namespace FastModdingLib.Modding
             return graph;
         }
 
-        private static List<string>? DetectCycle(List<int>[] graph, List<ModInfo> modInfos)
+        private static List<string>? DetectCycle(HashSet<int>[] graph, List<ModInfo> modInfos)
         {
             int n = graph.Length;
             var state = new int[n]; // 0=unvisited, 1=visiting, 2=visited
@@ -194,7 +208,7 @@ namespace FastModdingLib.Modding
             return null;
         }
 
-        private static List<ModInfo> TopologicalSort(List<int>[] graph, List<ModInfo> modInfos)
+        private static List<ModInfo> TopologicalSort(HashSet<int>[] graph, List<ModInfo> modInfos)
         {
             int n = modInfos.Count;
             var indegree = new int[n];

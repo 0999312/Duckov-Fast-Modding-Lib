@@ -69,6 +69,8 @@ namespace FastModdingLib.Modding
         /// 仅按 Name 匹配（保持软依赖的轻量语义）。</summary>
         public string[] LoadAfter;
 
+        public string[] LoadBefore;
+
         /// <summary>依赖就绪后是否自动激活（无需玩家手动开关）。默认 false。</summary>
         public bool AutoActivate;
 
@@ -79,8 +81,9 @@ namespace FastModdingLib.Modding
         {
             ModId = "",
             Priority = int.MaxValue,
-            Dependencies = System.Array.Empty<ModDependency>(),
-            LoadAfter = System.Array.Empty<string>(),
+            Dependencies = new ModDependency[]{},
+            LoadAfter = new string[]{},
+            LoadBefore = new string[]{},
             AutoActivate = false,
             Loaded = false
         };

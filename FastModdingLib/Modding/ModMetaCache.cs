@@ -111,6 +111,7 @@ namespace FastModdingLib.Modding
                     LoadAfter = obj.TryGetValue("loadAfter", out var la)
                         ? la.ToObject<string[]>() ?? System.Array.Empty<string>()
                         : System.Array.Empty<string>(),
+                    LoadBefore = obj.TryGetValue("loadBefore", out var lb) ? lb.ToObject<string[]>() ?? new string[]{} : new string[]{},
                     AutoActivate = obj.TryGetValue("autoActivate", out var a) && a.Value<bool>(),
                     Loaded = true
                 };
