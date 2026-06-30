@@ -2,11 +2,11 @@
 
 namespace FastModdingLib.Utils
 {
-    public class Identifier: IEquatable<Identifier>
+    public class Identifier : IEquatable<Identifier>
     {
         private readonly string _domain;
         private readonly string _path;
-        
+
         public string Domain
         {
             get => _domain;
@@ -32,12 +32,7 @@ namespace FastModdingLib.Utils
             {
                 throw new ArgumentException($"Double dot is not accepted in {hint}");
             }
-            
-            if (str.Contains("/"))
-            {
-                throw new ArgumentException($"/(Forward slash) is not accepted in {hint}");
-            }
-            
+
             if (str.Contains("\\"))
             {
                 throw new ArgumentException($"\\(Backward slash) is not accepted in {hint}");
@@ -46,6 +41,10 @@ namespace FastModdingLib.Utils
 
         public Identifier(string domain, string path)
         {
+            if (domain.Contains("/"))
+            {
+                throw new ArgumentException("/(Forward slash) is not accepted in domain");
+            }
             isValid(domain, "domain");
             isValid(path, "path");
             _domain = domain;
@@ -70,6 +69,10 @@ namespace FastModdingLib.Utils
 
             string domain = splitted[0];
             string path = splitted[1];
+            if (domain.Contains("/"))
+            {
+                throw new ArgumentException("/(Forward slash) is not accepted in domain");
+            }
             isValid(domain, "domain");
             isValid(path, "path");
             _domain = domain;
@@ -92,6 +95,35 @@ namespace FastModdingLib.Utils
         public override int GetHashCode()
         {
             return HashCode.Combine(Path, Domain);
+        }
+
+        public override string ToString()
+        {
+            return $"{_domain}:{_path}";
+        }
+
+        public static Identifier Parse(string raw)
+        {
+            return new Identifier(raw);
+        }
+
+        public static bool TryParse(string raw, out Identifier? result)
+        {
+            if (raw is null)
+            {
+                result = null;
+                return false;
+            }
+            try
+            {
+                result = new Identifier(raw);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                result = null;
+                return false;
+            }
         }
     }
 }

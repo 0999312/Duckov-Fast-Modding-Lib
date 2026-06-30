@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using FastModdingLib.Utils;
 
 namespace FastModdingLib.Tests
 {
@@ -42,7 +43,7 @@ namespace FastModdingLib.Tests
 
         public static void TestItem()
         {
-            ItemUtils.CreateCustomItem(Assembly.GetExecutingAssembly().Location, drink01);
+            ItemUtils.CreateCustomItem(new Identifier("fastmoddinglib", "test_drink"), drink01);
         }
     }
 }

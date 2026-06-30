@@ -1,0 +1,32 @@
+# Decompiled game source — local reference only, never commit
+DecompiledDLL/
+
+# Visual Studio IDE cache (already ignored by FastModdingLib/.gitignore, keep here too)
+.vs/
+
+# JetBrains Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Build outputs (per-project .gitignore also covers these)
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+
+# User-specific project overrides
+*.user
+FastModdingLib.user.props
+
+# OS detritus
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# NuGet
+*.nupkg
+**/packages/*

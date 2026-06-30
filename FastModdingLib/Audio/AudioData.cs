@@ -1,12 +1,10 @@
-﻿using FastModdingLib.Register;
-
-namespace FastModdingLib.Audio
+﻿namespace FastModdingLib.Audio
 {
     public class AudioData
     {
-        public string Path;
-        public string Eventname;
-        public float MinDistance;
-        public float MaxDistance;
+        public string Path = null!;
+        public string Eventname = null!;
+        public float MinDistance = 1.0F;
+        public float MaxDistance = 50.0F;
     }
 }

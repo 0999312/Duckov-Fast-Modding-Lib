@@ -5,13 +5,16 @@
         <IsMac>false</IsMac>
         <IsMac Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">true</IsMac>
 
-        <!-- For Windows users, please fill the folder path which contains Duckov.exe below -->
-        <!-- Windows 用户请在下面这行填写你的鸭科夫安装路径（包含 Duckov.exe 的目录），这样编译器就能找到相关的 dll 文件 -->
-        <DuckovPath>D:\SteamLibrary\steamapps\common\Escape from Duckov</DuckovPath>
+        <!-- DuckovPath 优先级 (Priority):
+             1. 环境变量 $(DUCKOV_PATH)（最优先，适合 CI / 多机器场景）
+             2. 用户自定义 props 文件 $(DuckovUserProps) 中的 DuckovPath
+             3. 本文件内硬编码路径（兜底） -->
+        <DuckovPath Condition="'$(DuckovPath)' == '' AND '$(DUCKOV_PATH)' != ''">$(DUCKOV_PATH)</DuckovPath>
+        <DuckovPath Condition="'$(DuckovPath)' == '' AND '$(IsMac)' != 'true'">D:\SteamLibrary\steamapps\common\Escape from Duckov</DuckovPath>
 
         <!-- For Mac users, please fill the folder path which contains Duckov.app below -->
-        <!-- Mac 用户请在下面这行填写你的鸭科夫安装路径（s包含 Duckov.app 的目录）-->
-        <DuckovPath Condition="'$(IsMac)'">/Users/Somebody/Library/Application Support/Steam/steamapps/common/Escape from Duckov</DuckovPath>
+        <!-- Mac 用户请在下面这行填写你的鸭科夫安装路径（包含 Duckov.app 的目录）-->
+        <DuckovPath Condition="'$(DuckovPath)' == '' AND '$(IsMac)'">/Users/Somebody/Library/Application Support/Steam/steamapps/common/Escape from Duckov</DuckovPath>
 
         <SubPath>\Duckov_Data\Managed\</SubPath>
         <SubPath Condition="'$(IsMac)'">/Duckov.app/Contents/Resources/Data/Managed/</SubPath>
@@ -67,6 +70,9 @@
 		<Compile Remove="Resources\**" />
 		<EmbeddedResource Remove="Resources\**" />
 		<None Remove="Resources\**" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' != 'Debug'">
+		<Compile Remove="Tests\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Krafs.Publicizer" Version="2.3.0">

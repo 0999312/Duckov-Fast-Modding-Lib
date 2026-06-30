@@ -1,0 +1,8 @@
+{
+    "modid": "FastModdingLib",
+    "priority": 999,
+    "dependencies": [
+        { "name": "HarmonyLoadMod", "workshopId": "3589088839" }
+    ],
+    "autoActivate": true
+}

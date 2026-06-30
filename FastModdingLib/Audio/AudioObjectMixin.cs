@@ -1,12 +1,10 @@
 ﻿using Duckov;
+using FastModdingLib.Utils;
 using FMOD.Studio;
+using FMODUnity;
 using HarmonyLib;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using FastModdingLib.Utils;
-using FMODUnity;
 using UnityEngine;
 
 namespace FastModdingLib.Audio
@@ -17,11 +15,23 @@ namespace FastModdingLib.Audio
         [HarmonyPrefix]
         public static bool Prefix(AudioObject __instance, ref EventInstance? __result, string eventName, bool doRelease)
         {
-            Debug.Log($"AudioObjectMixin: Post called with eventName: {eventName}");
-            Identifier? id = AudioUtil.Instance.GetIdentifier(eventName);
-            if (id is null) return true;
+            if (!AudioUtil.Instance.dataRegistry.TryGetIdentifier(eventName, out var id) || id is null) return true;
             AudioData data = AudioUtil.Instance.dataRegistry[id];
             string filePath = data.Path;
+            // 通过 id.Domain 解析 Mod 目录，将 data.Path 中的相对路径转换为完整文件路径
+            if (!string.IsNullOrEmpty(filePath) && !Path.IsPathRooted(filePath))
+            {
+                var modDir = ModPathResolver.ResolveDirectory(id.Domain);
+                if (modDir != null)
+                {
+                    filePath = Path.Combine(modDir, filePath);
+                }
+                else
+                {
+                    Debug.LogWarning($"[Audio] Failed to resolve mod directory for domain '{id.Domain}'. " +
+                                     $"Ensure the mod has registered its path via ModPathResolver.Register. Using path as-is: {filePath}");
+                }
+            }
             if (!File.Exists(filePath))
                 Debug.Log("[Audio] File don't exist: " + filePath);
             if (!AudioManager.TryCreateEventInstance("SFX/custom", out var eventInstance))
@@ -30,6 +40,10 @@ namespace FastModdingLib.Audio
                 return false;
             }
             __instance.events.Add(eventInstance);
+            // TODO: GCHandle.Alloc 分配的句柄需在 EVENT_CALLBACK_TYPE.STOPPED 等回调中
+            // 通过 GCHandle.FromIntPtr(userData).Free() 释放。当前 AudioObject.CustomSFXCallback
+            // 由游戏侧提供，不确定是否释放句柄。若未释放则存在累积内存泄漏。
+            // 建议方案：提供 FML 自有回调包装器，先调原始回调再 Free GCHandle。
             GCHandle gcHandle = GCHandle.Alloc(filePath);
             eventInstance.setProperty(EVENT_PROPERTY.MINIMUM_DISTANCE, data.MinDistance);
             eventInstance.setProperty(EVENT_PROPERTY.MAXIMUM_DISTANCE, data.MaxDistance);

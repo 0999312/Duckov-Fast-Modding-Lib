@@ -26,7 +26,7 @@ namespace FastModdingLib
         public List<ModifierData> modifiers = new List<ModifierData>();
     }
 
-    public class ModifierData 
+    public class ModifierData
     {
         public ModifierTarget target;
         public string key = string.Empty;
@@ -36,7 +36,8 @@ namespace FastModdingLib
         public int overrideOrderValue = 0;
         public bool display = true;
 
-        public ModifierDescription getModifier() {
+        public ModifierDescription getModifier()
+        {
             ModifierDescription modifierDescription = new ModifierDescription(target, key, type, value, overrideOrder, overrideOrderValue);
             modifierDescription.display = display;
             return modifierDescription;
@@ -73,7 +74,8 @@ namespace FastModdingLib
     {
         public float energyValue;
         public float waterValue;
-        public override UsageBehavior GetBehavior(Item item) {
+        public override UsageBehavior GetBehavior(Item item)
+        {
             FoodDrink foodDrinkBehavior = item.AddComponent<FoodDrink>();
             foodDrinkBehavior.energyValue = this.energyValue;
             foodDrinkBehavior.waterValue = this.waterValue;
@@ -106,7 +108,8 @@ namespace FastModdingLib
 
         public static Buff FindBuff(int id)
         {
-            return GameplayDataSettings.Buffs.allBuffs.Find(buff=>buff.id == id);
+            // 优先查 FML Registry（支持自定义 Buff），回退到游戏内置列表
+            return BuffUtils.FindBuff(id) ?? GameplayDataSettings.Buffs.allBuffs?.Find(buff => buff != null && buff.id == id) ?? null!;
         }
     }
 

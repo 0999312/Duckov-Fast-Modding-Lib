@@ -1,6 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using FastModdingLib.Events;
+using FastModdingLib.Events.GameEvents;
+using FastModdingLib.Utils;
+using Newtonsoft.Json.Linq;
+using SodaCraft.Localizations;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 
@@ -19,27 +25,74 @@ namespace FastModdingLib
             { SystemLanguage.French, "fr_fr.json" },
             { SystemLanguage.Swedish, "sv_se.json" }
         };
-        public static void InitI18n(string modPath)
+        private static string _modDirectory = string.Empty;
+
+        /// <summary>
+        /// 初始化 I18n。mod 目录从 <see cref="ModPathResolver"/> 自动探测。
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void InitI18n(string modid = "FastModdingLib")
         {
-            SodaCraft.Localizations.LocalizationManager.OnSetLanguage += (SystemLanguage lang) =>
+            if (modid != "FastModdingLib")
             {
-                if (I18n.localizedNames.ContainsKey(lang))
-                {
-                    I18n.loadFileJson(modPath, $"/{I18n.localizedNames[lang]}");
-                }
-                else
-                {
-                    I18n.loadFileJson(modPath, $"/{I18n.localizedNames[SystemLanguage.English]}");
-                }
-            };
+                string? modPath = ModPathResolver.ResolveDirectory(modid);
+                _modDirectory = modPath != null ? modPath : Assembly.GetExecutingAssembly().Location;
+            }
+            else
+            {
+                _modDirectory = Assembly.GetExecutingAssembly().Location;
+            }
+
+            EventBusManager.Instance.Sync.Register<LanguageChangedEvent>(OnLanguageChanged);
+
+            // 首次加载：游戏原生 LocalizationManager.OnSetLanguage 仅在玩家主动切换语言时触发，
+            // 游戏启动 / mod 首次加载时不会自动触发，因此在此显式读取当前语言文件一次。
+            SystemLanguage currentLang = LocalizationManager.CurrentLanguage;
+            string initFile = localizedNames.TryGetValue(currentLang, out var f) ? f : localizedNames[SystemLanguage.English];
+            LoadLanguageFile($"/{initFile}");
         }
 
-        public static void loadFileJson(string modPath, string loc)
+        /// <summary>
+        /// 将 <see cref="SystemLanguage"/> 枚举转换为语言代码字符串（如 "zh_cn"、"en_us"）。
+        /// 与 <see cref="LanguageChangedEvent.LangCode"/> 的格式约定一致。
+        /// </summary>
+        public static string GetLangCode(SystemLanguage lang)
         {
-            string modDirectory = Path.GetDirectoryName(modPath);
+            if (localizedNames.TryGetValue(lang, out var fileName))
+            {
+                return Path.GetFileNameWithoutExtension(fileName);
+            }
+            return Path.GetFileNameWithoutExtension(localizedNames[SystemLanguage.English]);
+        }
+
+        /// <summary>
+        /// 根据语言代码（如 "zh_cn"）解析对应的语言文件名，未匹配时回退到英语。
+        /// </summary>
+        private static string ResolveLanguageFile(string langCode)
+        {
+            string fileName = $"{langCode}.json";
+            return localizedNames.ContainsValue(fileName) ? fileName : localizedNames[SystemLanguage.English];
+        }
+
+        private static void OnLanguageChanged(LanguageChangedEvent evt)
+        {
+            LoadLanguageFile($"/{ResolveLanguageFile(evt.LangCode)}");
+        }
+
+        /// <summary>
+        /// 从已注册的 mod 目录加载语言 JSON 文件，注入到游戏本地化管理器。
+        /// </summary>
+        /// <param name="loc">语言文件名（如 "/en_us.json"）。</param>
+        public static void LoadLanguageFile(string loc)
+        {
+            if (string.IsNullOrEmpty(_modDirectory))
+            {
+                Debug.LogError("[I18n] Mod directory not set. Call InitI18n() first.");
+                return;
+            }
             StringBuilder assetLoc = new StringBuilder($"assets/lang");
             assetLoc.Append(loc);
-            string fileLoc = Path.Combine(modDirectory, assetLoc.ToString());
+            string fileLoc = Path.Combine(_modDirectory, assetLoc.ToString());
 
             if (File.Exists(fileLoc))
             {
@@ -51,20 +104,21 @@ namespace FastModdingLib
 
                     string key = item.Key;
                     string value = item.Value.ToString();
-                    SodaCraft.Localizations.LocalizationManager.SetOverrideText(key, value);
+                    LocalizationManager.SetOverrideText(key, value);
                 }
             }
             else
             {
-                if (File.Exists(localizedNames[SystemLanguage.English]) == false)
+                string englishLoc = localizedNames[SystemLanguage.English];
+                string englishFile = Path.Combine(_modDirectory, $"assets/lang/{englishLoc}");
+                if (!File.Exists(englishFile))
                 {
-                    Debug.LogError($"[I18n] Location {assetLoc.ToString()} doesn't have any language files, report it to modder");
+                    Debug.LogError($"[I18n] No language files found at assets/lang/ in {_modDirectory}. Report to modder.");
                     return;
                 }
                 Debug.LogWarning($"[I18n] Language file {loc} not found, fallback to en_us.json");
-                I18n.loadFileJson(modPath, $"/{I18n.localizedNames[SystemLanguage.English]}");
+                LoadLanguageFile($"/{englishLoc}");
             }
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Duckov.Quests;
+using FastModdingLib.Utils;
 
 
 namespace FastModdingLib.Tests
@@ -15,7 +16,7 @@ namespace FastModdingLib.Tests
                 tags = { "Formula", "Formula_Blueprint" },
                 formulaID = "example_formula"
             };
-            ItemUtils.CreateCustomBluePrint(blueprint);
+            ItemUtils.CreateCustomBluePrint(new Identifier("fastmoddinglib", "test_blueprint"), blueprint);
             QuestData exampleQuestData = new QuestData
             {
                 ID = 114515,

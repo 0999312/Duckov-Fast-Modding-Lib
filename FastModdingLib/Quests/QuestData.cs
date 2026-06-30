@@ -2,6 +2,7 @@
 using Duckov.Quests.Rewards;
 using Duckov.Quests.Tasks;
 using FastModdingLib.Quests;
+using FastModdingLib.Utils;
 using System.Collections.Generic;
 
 namespace FastModdingLib
@@ -11,6 +12,13 @@ namespace FastModdingLib
         public string displayName = string.Empty;
         public string description = string.Empty;
         public int ID;
+
+        /// <summary>
+        /// 可选：Quest 的 Identifier（domain = modid, path = 任务标识）。
+        /// 设置后 Registry 使用此 Identifier 而非硬编码 "fastmoddinglib:quest_{ID}"。
+        /// </summary>
+        public Identifier? Id;
+
         public QuestGiverID questGiver;
         public int requireLevel;
         public int requireItemID = -1;
@@ -27,8 +35,16 @@ namespace FastModdingLib
     public class TaskRequireItem : TaskData
     {
         public int itemTypeID;
+
+        /// <summary>
+        /// 可选：物品 Identifier。设置后优先解析为 itemTypeID，
+        /// 解析失败时回退到 <see cref="itemTypeID"/>。
+        /// </summary>
+        public Identifier? itemIdentifier;
+
         public int requiredAmount;
-        public override Task SetTask(Quest quest) {
+        public override Task SetTask(Quest quest)
+        {
             SubmitItems submit = quest.gameObject.AddComponent<SubmitItems>();
             submit.id = id;
             submit.itemTypeID = itemTypeID;
@@ -54,6 +70,12 @@ namespace FastModdingLib
     public class TaskRequireUseItem : TaskData
     {
         public int itemTypeID;
+
+        /// <summary>
+        /// 可选：物品 Identifier。设置后优先解析为 itemTypeID。
+        /// </summary>
+        public Identifier? itemIdentifier;
+
         public int amount;
         public override Task SetTask(Quest quest)
         {
@@ -69,6 +91,12 @@ namespace FastModdingLib
     {
         public int requireAmount = 1;
         public int weaponTypeID = -1;
+
+        /// <summary>
+        /// 可选：武器 Identifier。设置后优先解析为 weaponTypeID。
+        /// </summary>
+        public Identifier? weaponIdentifier;
+
         public int buffTypeID = -1;
         public bool requireHeadshot = false;
         public bool withoutHeadShot = false;
@@ -92,13 +120,13 @@ namespace FastModdingLib
             task.requireHeadShot = requireHeadshot;
             task.withoutHeadShot = withoutHeadShot;
 
-            if(requireEnemy != string.Empty)
+            if (requireEnemy != string.Empty)
             {
                 task.requireEnemyType = EnemyUtils.GetPreset(this.requireEnemy);
             }
 
             task.master = quest;
-            
+
             return task;
         }
     }
@@ -111,6 +139,12 @@ namespace FastModdingLib
     public class RewardGiveItem : RewardData
     {
         public int itemTypeID;
+
+        /// <summary>
+        /// 可选：物品 Identifier。设置后优先解析为 itemTypeID。
+        /// </summary>
+        public Identifier? itemIdentifier;
+
         public int amount;
         public override Reward SetReward(Quest quest)
         {
@@ -150,6 +184,12 @@ namespace FastModdingLib
     public class RewardUnlockItem : RewardData
     {
         public int itemTypeID;
+
+        /// <summary>
+        /// 可选：物品 Identifier。设置后优先解析为 itemTypeID。
+        /// </summary>
+        public Identifier? itemIdentifier;
+
         public override Reward SetReward(Quest quest)
         {
             QuestReward_UnlockStockItem reward = quest.gameObject.AddComponent<QuestReward_UnlockStockItem>();
@@ -159,5 +199,5 @@ namespace FastModdingLib
             return reward;
         }
     }
-    
+
 }

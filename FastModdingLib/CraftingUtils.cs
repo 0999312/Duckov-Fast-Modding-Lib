@@ -1,32 +1,152 @@
 ﻿using Duckov.Economy;
-using System;
-using System.Collections.Generic;
+using FastModdingLib.Register;
+using FastModdingLib.Utils;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace FastModdingLib
 {
     public static class CraftingUtils
     {
-        public static Dictionary<string, string> addedFormulaIds = new Dictionary<string, string>();
+        public static readonly CraftingFormulaRegistry craftingFormulaRegistry;
+        public static readonly DecomposeRegistry decomposeRegistry;
 
-        public static Dictionary<int, string> addedFormulaResults = new Dictionary<int, string>();
-
-        public static Dictionary<int, string> addedDecomposeItemIds = new Dictionary<int, string>();
-        public static void AddDecomposeFormula(int itemId, long money, (int id, long amount)[] resultItems, string modid = "old_fml_version")
+        static CraftingUtils()
         {
+            craftingFormulaRegistry = new CraftingFormulaRegistry();
+            decomposeRegistry = new DecomposeRegistry();
+            RegistryManager.Instance.Registry.Set(
+                new Identifier("fastmoddinglib", "crafting_formula"), craftingFormulaRegistry);
+            RegistryManager.Instance.Registry.Set(
+                new Identifier("fastmoddinglib", "decompose"), decomposeRegistry);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  新 API — struct 驱动
+        // ═══════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// 添加合成配方（推荐）。
+        /// </summary>
+        public static void AddCraftingFormula(CraftingFormulaData data)
+        {
+            string owner = data.Id.Domain;
+            string formulaId = data.Id.Path;
+            var tags = data.Tags ?? new[] { "WorkBenchAdvanced" };
+
+            AddCraftingFormulaInternal(
+                id: data.Id,
+                formulaId: formulaId,
+                money: data.Money,
+                costItems: ResolveItems(data.CostItems),
+                resultItemId: data.Result.ResolveTypeId(),
+                resultItemAmount: data.Result.Amount,
+                tags: tags,
+                requirePerk: data.RequirePerk ?? "",
+                unlockByDefault: data.UnlockByDefault,
+                hideInIndex: data.HideInIndex,
+                lockInDemo: data.LockInDemo,
+                owner: owner
+            );
+        }
+
+        /// <summary>
+        /// 添加分解配方（推荐）。
+        /// </summary>
+        public static void AddDecomposeFormula(DecomposeFormulaData data)
+        {
+            string owner = data.Id.Domain;
+            int sourceTypeId = ItemUtils.ResolveItemRef(data.SourceItemId, data.SourceItemTypeId);
+
+            AddDecomposeFormulaInternal(
+                id: data.Id,
+                sourceItemId: sourceTypeId,
+                money: data.Money,
+                resultItems: ResolveItems(data.ResultItems),
+                owner: owner
+            );
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  内部实现
+        // ═══════════════════════════════════════════════════════════════
+
+        private static (int id, long amount)[] ResolveItems(ItemEntry[]? items)
+        {
+            if (items == null) return System.Array.Empty<(int, long)>();
+            var result = new (int, long)[items.Length];
+            for (int i = 0; i < items.Length; i++)
+            {
+                result[i] = (items[i].ResolveTypeId(), items[i].Amount);
+            }
+            return result;
+        }
+
+        private static void AddCraftingFormulaInternal(
+            Identifier id, string formulaId, long money,
+            (int id, long amount)[] costItems,
+            int resultItemId, int resultItemAmount,
+            string[] tags, string requirePerk,
+            bool unlockByDefault, bool hideInIndex, bool lockInDemo,
+            string owner)
+        {
+            if (craftingFormulaRegistry.TryGet(id, out _))
+            {
+                Debug.LogWarning("Exist Crafting formula: " + formulaId);
+                return;
+            }
+
+            CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
+            var list = instance.list;
+            var item = new CraftingFormula
+            {
+                id = formulaId,
+                unlockByDefault = unlockByDefault
+            };
+
+            var cost = new Cost { money = money };
+            var array = new Cost.ItemEntry[costItems.Length];
+            for (int i = 0; i < costItems.Length; i++)
+            {
+                array[i] = new Cost.ItemEntry
+                {
+                    id = costItems[i].id,
+                    amount = costItems[i].amount
+                };
+            }
+            cost.items = array;
+            item.cost = cost;
+
+            item.result = new CraftingFormula.ItemEntry
+            {
+                id = resultItemId,
+                amount = resultItemAmount
+            };
+            item.requirePerk = requirePerk;
+            item.tags = tags;
+            item.hideInIndex = hideInIndex;
+            item.lockInDemo = lockInDemo;
+
+            list.Add(item);
+            craftingFormulaRegistry.Set(id, item, owner);
+            Debug.Log($"Added crafting formula: {formulaId} (identifier: {id})");
+        }
+
+        private static void AddDecomposeFormulaInternal(
+            Identifier id, int sourceItemId, long money,
+            (int id, long amount)[] resultItems, string owner)
+        {
+            if (decomposeRegistry.TryGetIdentifier(sourceItemId, out _))
+            {
+                Debug.LogWarning($"Exist decompose formula: {sourceItemId}");
+                return;
+            }
+
             DecomposeDatabase instance = DecomposeDatabase.Instance;
-            DecomposeFormula item = new DecomposeFormula
-            {
-                item = itemId,
-                valid = true
-            };
-            Cost result = new Cost
-            {
-                money = money
-            };
-            Cost.ItemEntry[] array = new Cost.ItemEntry[resultItems.Length];
+            var item = new DecomposeFormula { item = sourceItemId, valid = true };
+
+            var result = new Cost { money = money };
+            var array = new Cost.ItemEntry[resultItems.Length];
             for (int i = 0; i < resultItems.Length; i++)
             {
                 array[i] = new Cost.ItemEntry
@@ -38,116 +158,206 @@ namespace FastModdingLib
             result.items = array;
             item.result = result;
 
-            if (!addedDecomposeItemIds.ContainsKey(itemId))
-            {
-                addedDecomposeItemIds.Add(itemId, modid);
-            }
-            Debug.Log($"Added decompose: {itemId}");
+            decomposeRegistry.Register(sourceItemId, id, item, owner);
+            Debug.Log($"Added decompose: {sourceItemId} (identifier: {id})");
 
-            instance.Dic.Add(itemId, item);
+            instance.Dic.Add(sourceItemId, item);
             instance.entries = instance.Dic.Values.ToArray();
         }
 
-        public static void RemoveAllAddedDecomposeFormulas(string modid = "old_fml_version")
-        {
-            try
-            {
-                DecomposeDatabase instance = DecomposeDatabase.Instance;
+        // ═══════════════════════════════════════════════════════════════
+        //  旧 API — 向后兼容（委托到 struct API）
+        // ═══════════════════════════════════════════════════════════════
 
-                DecomposeFormula[] collection = instance.entries;
-                List<DecomposeFormula> list = new List<DecomposeFormula>(collection);
-                int num = 0;
-                for (int num2 = list.Count - 1; num2 >= 0; num2--)
-                {
-                    if (addedDecomposeItemIds.ContainsKey(list[num2].item))
-                    {
-                        Debug.Log($"Remove decompose formula: {list[num2].item}");
-                        list.RemoveAt(num2);
-                        num++;
-                    }
-                }
-                collection = list.ToArray();
-                addedDecomposeItemIds.Clear();
-                typeof(DecomposeDatabase).GetMethod("RebuildDictionary", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(instance, null);
-                Debug.Log($"Removed {num} decompose formulas");
-            }
-            catch (Exception arg)
-            {
-                Debug.LogError($"Exception at removing decompose formula: {arg}");
-            }
-        }
-        public static void AddCraftingFormula(string formulaId, long money, (int id, long amount)[] costItems, int resultItemId, int resultItemAmount, string[] tags = null, string requirePerk = "", bool unlockByDefault = true, bool hideInIndex = false, bool lockInDemo = false, string modid = "old_fml_version")
+        /// <summary>
+        /// [兼容] 添加合成配方（formulaId 字符串）。
+        /// </summary>
+        public static void AddCraftingFormula(
+            string formulaId, long money,
+            (int id, long amount)[] costItems,
+            int resultItemId, int resultItemAmount,
+            string[] tags = null!, string requirePerk = "",
+            bool unlockByDefault = true, bool hideInIndex = false,
+            bool lockInDemo = false, string? modid = null)
         {
-            CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
-            List<CraftingFormula> list = instance.list;
-            foreach (CraftingFormula item2 in list)
+            string owner = modid ?? RegistryManager.CurrentModid;
+            var data = new CraftingFormulaData
             {
-                if (item2.id == formulaId)
-                {
-                    Debug.LogWarning("Exist Crafting formula: " + formulaId);
-                    return;
-                }
-            }
-            CraftingFormula item = new CraftingFormula
-            {
-                id = formulaId,
-                unlockByDefault = unlockByDefault
+                Id = new Identifier(owner, $"crafting_{formulaId}"),
+                Money = money,
+                CostItems = ConvertTupleItems(costItems),
+                Result = ItemEntry.Of(resultItemId, resultItemAmount),
+                Tags = tags,
+                RequirePerk = requirePerk,
+                UnlockByDefault = unlockByDefault,
+                HideInIndex = hideInIndex,
+                LockInDemo = lockInDemo
             };
-            Cost cost = new Cost
-            {
-                money = money
-            };
-            Cost.ItemEntry[] array = new Cost.ItemEntry[costItems.Length];
-            for (int i = 0; i < costItems.Length; i++)
-            {
-                array[i] = new Cost.ItemEntry
-                {
-                    id = costItems[i].id,
-                    amount = costItems[i].amount
-                };
-            }
-            cost.items = array;
-            item.cost = cost;
-            CraftingFormula.ItemEntry result = new CraftingFormula.ItemEntry
-            {
-                id = resultItemId,
-                amount = resultItemAmount
-            };
-            item.result = result;
-            item.requirePerk = requirePerk;
-            item.tags = tags ?? new string[1] { "WorkBenchAdvanced" };
-            item.hideInIndex = hideInIndex;
-            item.lockInDemo = lockInDemo;
-            list.Add(item);
-            if (!addedFormulaIds.ContainsKey(formulaId))
-            {
-                addedFormulaIds.Add(formulaId, modid);
-            }
-            Debug.Log("Added crafting formula: " + formulaId);
+            AddCraftingFormula(data);
         }
-        public static void RemoveAllAddedFormulas(string modid = "old_fml_version")
+
+        /// <summary>
+        /// [兼容] 添加合成配方（Identifier + int 产物）。
+        /// </summary>
+        public static void AddCraftingFormula(
+            Identifier id, long money,
+            (int id, long amount)[] costItems,
+            int resultItemId, int resultItemAmount,
+            string[] tags = null!, string requirePerk = "",
+            bool unlockByDefault = true, bool hideInIndex = false,
+            bool lockInDemo = false)
         {
-            try
+            AddCraftingFormula(new CraftingFormulaData
             {
-                CraftingFormulaCollection instance = CraftingFormulaCollection.Instance;
-                List<CraftingFormula> list = instance.list;
-                int num = 0;
-                for (int num2 = list.Count - 1; num2 >= 0; num2--)
-                {
-                    if (addedFormulaIds.ContainsKey(list[num2].id))
-                    {
-                        Debug.Log("Remove Formula: " + list[num2].id);
-                        list.RemoveAt(num2);
-                        num++;
-                    }
-                }
-                addedFormulaIds.Clear();
-                Debug.Log($"Removed {num} crafting formulas");
-            }
-            catch (Exception arg)
-            {
-                Debug.LogError($"Exception at removing crafting formula: {arg}");
-            }
+                Id = id,
+                Money = money,
+                CostItems = ConvertTupleItems(costItems),
+                Result = ItemEntry.Of(resultItemId, resultItemAmount),
+                Tags = tags,
+                RequirePerk = requirePerk,
+                UnlockByDefault = unlockByDefault,
+                HideInIndex = hideInIndex,
+                LockInDemo = lockInDemo
+            });
         }
+
+        /// <summary>
+        /// [兼容] 添加合成配方（Identifier + Identifier 产物）。
+        /// </summary>
+        public static void AddCraftingFormula(
+            Identifier id, long money,
+            (int id, long amount)[] costItems,
+            Identifier resultItemId, int resultItemAmount,
+            string[] tags = null!, string requirePerk = "",
+            bool unlockByDefault = true, bool hideInIndex = false,
+            bool lockInDemo = false)
+        {
+            AddCraftingFormula(new CraftingFormulaData
+            {
+                Id = id,
+                Money = money,
+                CostItems = ConvertTupleItems(costItems),
+                Result = ItemEntry.Of(resultItemId, resultItemAmount),
+                Tags = tags,
+                RequirePerk = requirePerk,
+                UnlockByDefault = unlockByDefault,
+                HideInIndex = hideInIndex,
+                LockInDemo = lockInDemo
+            });
+        }
+
+        /// <summary>
+        /// [兼容] 添加合成配方（Identifier cost + int 产物）。
+        /// </summary>
+        public static void AddCraftingFormula(
+            Identifier id, long money,
+            (Identifier itemId, int amount)[] costItems,
+            int resultItemId, int resultItemAmount,
+            string[] tags = null!, string requirePerk = "",
+            bool unlockByDefault = true, bool hideInIndex = false,
+            bool lockInDemo = false)
+        {
+            AddCraftingFormula(new CraftingFormulaData
+            {
+                Id = id,
+                Money = money,
+                CostItems = ConvertTupleItems(costItems),
+                Result = ItemEntry.Of(resultItemId, resultItemAmount),
+                Tags = tags,
+                RequirePerk = requirePerk,
+                UnlockByDefault = unlockByDefault,
+                HideInIndex = hideInIndex,
+                LockInDemo = lockInDemo
+            });
+        }
+
+        /// <summary>
+        /// [兼容] 添加合成配方（Identifier cost + Identifier 产物）。
+        /// </summary>
+        public static void AddCraftingFormula(
+            Identifier id, long money,
+            (Identifier itemId, int amount)[] costItems,
+            Identifier resultItemId, int resultItemAmount,
+            string[] tags = null!, string requirePerk = "",
+            bool unlockByDefault = true, bool hideInIndex = false,
+            bool lockInDemo = false)
+        {
+            AddCraftingFormula(new CraftingFormulaData
+            {
+                Id = id,
+                Money = money,
+                CostItems = ConvertTupleItems(costItems),
+                Result = ItemEntry.Of(resultItemId, resultItemAmount),
+                Tags = tags,
+                RequirePerk = requirePerk,
+                UnlockByDefault = unlockByDefault,
+                HideInIndex = hideInIndex,
+                LockInDemo = lockInDemo
+            });
+        }
+
+        /// <summary>
+        /// [兼容] 添加分解配方（int source）。
+        /// </summary>
+        public static void AddDecomposeFormula(
+            int itemId, long money,
+            (int id, long amount)[] resultItems,
+            string? modid = null)
+        {
+            string owner = modid ?? RegistryManager.CurrentModid;
+            AddDecomposeFormula(new DecomposeFormulaData
+            {
+                Id = new Identifier(owner, $"decompose_{itemId}"),
+                SourceItemTypeId = itemId,
+                Money = money,
+                ResultItems = ConvertTupleItems(resultItems)
+            });
+        }
+
+        /// <summary>
+        /// [兼容] 添加分解配方（Identifier + int source）。
+        /// </summary>
+        public static void AddDecomposeFormula(
+            Identifier id, int sourceItemId, long money,
+            (int id, long amount)[] resultItems)
+        {
+            AddDecomposeFormula(new DecomposeFormulaData
+            {
+                Id = id,
+                SourceItemTypeId = sourceItemId,
+                Money = money,
+                ResultItems = ConvertTupleItems(resultItems)
+            });
+        }
+
+        // ── tuple → ItemEntry[] 转换 ──
+
+        private static ItemEntry[] ConvertTupleItems((int id, long amount)[] tuples)
+        {
+            if (tuples == null) return System.Array.Empty<ItemEntry>();
+            var result = new ItemEntry[tuples.Length];
+            for (int i = 0; i < tuples.Length; i++)
+                result[i] = ItemEntry.Of(tuples[i].id, (int)tuples[i].amount);
+            return result;
+        }
+
+        private static ItemEntry[] ConvertTupleItems((Identifier itemId, int amount)[] tuples)
+        {
+            if (tuples == null) return System.Array.Empty<ItemEntry>();
+            var result = new ItemEntry[tuples.Length];
+            for (int i = 0; i < tuples.Length; i++)
+                result[i] = ItemEntry.Of(tuples[i].itemId, tuples[i].amount);
+            return result;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  卸载
+        // ═══════════════════════════════════════════════════════════════
+
+        public static void RemoveAllAddedFormulas(string? modid = null)
+            => craftingFormulaRegistry.RemoveAllByOwner(modid ?? RegistryManager.CurrentModid);
+
+        public static void RemoveAllAddedDecomposeFormulas(string? modid = null)
+            => decomposeRegistry.RemoveAllByOwner(modid ?? RegistryManager.CurrentModid);
     }
 }

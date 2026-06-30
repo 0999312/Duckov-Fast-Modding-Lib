@@ -1,20 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
-using Duckov.Buffs;
-using Duckov.UI;
 using ItemStatsSystem;
 using SodaCraft.Localizations;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static ItemStatsSystem.UsageBehavior;
 
 namespace FastModdingLib
 {
     public class ReturnItem : UsageBehavior
     {
         public int ItemTypeID;
-        
+
         public bool showItemName = false;
         [LocalizationKey("Default")]
         private string descKey = "UI_ReturnItem";
