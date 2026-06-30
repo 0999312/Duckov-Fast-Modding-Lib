@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\modding\\modmanagerpatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\modding\\modmanagerpatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audioutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audioutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audioobjectmixin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audioobjectmixin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audiodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audiodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\perktrees\\perktreeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\perktrees\\perktreeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\perktrees\\perktreeregistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\perktrees\\perktreeregistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\buildings\\buildingutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\buildings\\buildingutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\craftingdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\craftingdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -47,10 +75,6 @@
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\fmlbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\modding\\modmanagerpatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\modding\\modmanagerpatches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\modding\\moddependencyresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\modding\\moddependencyresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -87,24 +111,12 @@
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\events\\adapters\\gameeventadapters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audioobjectmixin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audioobjectmixin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audiodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audiodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\utils\\modpathresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\utils\\modpathresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\register\\registrymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\register\\registrymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\audio\\audioutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|solutionrelative:fastmoddinglib\\audio\\audioutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2AF6EE80-2BF2-45F4-A8B6-22EE93FF7CC1}|FastModdingLib\\FastModdingLib.csproj|d:\\duckov_modding\\duckov-fast-modding-lib\\fastmoddinglib\\quests\\questdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -146,24 +158,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FastModdingLib",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FastModdingLib.csproj",
-              "RelativeDocumentMoniker": "FastModdingLib\\FastModdingLib.csproj",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FastModdingLib.csproj",
-              "RelativeToolTip": "FastModdingLib\\FastModdingLib.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-06-30T11:14:55.162Z",
+              "DocumentIndex": 4,
+              "Title": "PerkTreeUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\PerkTrees\\PerkTreeUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\PerkTrees\\PerkTreeUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\PerkTrees\\PerkTreeUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\PerkTrees\\PerkTreeUtils.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAAACgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T14:25:05.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
+              "Title": "PerkTreeRegistry.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\PerkTrees\\PerkTreeRegistry.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\PerkTrees\\PerkTreeRegistry.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\PerkTrees\\PerkTreeRegistry.cs",
+              "RelativeToolTip": "FastModdingLib\\PerkTrees\\PerkTreeRegistry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T14:25:04.786Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BuildingUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Buildings\\BuildingUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Buildings\\BuildingUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Buildings\\BuildingUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\Buildings\\BuildingUtils.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAACYAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T13:52:59.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "CraftingData.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingData.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\CraftingData.cs",
@@ -176,46 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ShopUtils.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopUtils.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopUtils.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopUtils.cs",
-              "RelativeToolTip": "FastModdingLib\\Shop\\ShopUtils.cs",
-              "ViewState": "AgIAAFkAAAAAAAAAAAD4v2sAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T10:50:00.275Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ShopGoodsData.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopGoodsData.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopGoodsData.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopGoodsData.cs",
-              "RelativeToolTip": "FastModdingLib\\Shop\\ShopGoodsData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T10:49:46.361Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "FMLBootstrap.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FMLBootstrap.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\FMLBootstrap.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FMLBootstrap.cs",
-              "RelativeToolTip": "FastModdingLib\\FMLBootstrap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T08:55:29.913Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "ItemUtils.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Items\\ItemUtils.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Items\\ItemUtils.cs",
@@ -223,233 +222,24 @@
               "RelativeToolTip": "FastModdingLib\\Items\\ItemUtils.cs",
               "ViewState": "AgIAAJUAAAAAAAAAAAD4v6cAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:46:38.164Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AssetUtil.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\AssetUtil.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\AssetUtil.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\AssetUtil.cs",
-              "RelativeToolTip": "FastModdingLib\\AssetUtil.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAIAwwCcAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:46:40.889Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "EnemyUtils.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Entities\\EnemyUtils.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Entities\\EnemyUtils.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Entities\\EnemyUtils.cs",
-              "RelativeToolTip": "FastModdingLib\\Entities\\EnemyUtils.cs",
-              "ViewState": "AgIAAI4AAAAAAAAAAAD4v6AAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:49:50.23Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T03:46:38.164Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CraftingUtils.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingUtils.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\CraftingUtils.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingUtils.cs",
-              "RelativeToolTip": "FastModdingLib\\CraftingUtils.cs",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAMwKQAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:46:43.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ModManagerPatches.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModManagerPatches.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModManagerPatches.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModManagerPatches.cs",
-              "RelativeToolTip": "FastModdingLib\\Modding\\ModManagerPatches.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T16:46:51.813Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CraftingFormulaRegistry.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingFormulaRegistry.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\CraftingFormulaRegistry.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingFormulaRegistry.cs",
-              "RelativeToolTip": "FastModdingLib\\CraftingFormulaRegistry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-28T12:10:16.799Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ModDependencyResolver.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModDependencyResolver.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModDependencyResolver.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModDependencyResolver.cs",
-              "RelativeToolTip": "FastModdingLib\\Modding\\ModDependencyResolver.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T16:46:46.354Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ShopRegistry.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopRegistry.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopRegistry.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopRegistry.cs",
-              "RelativeToolTip": "FastModdingLib\\Shop\\ShopRegistry.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAMwBcAAABxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T08:32:41.594Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ModMeta.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModMeta.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModMeta.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModMeta.cs",
-              "RelativeToolTip": "FastModdingLib\\Modding\\ModMeta.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T16:46:52.914Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ModBehaviour.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\ModBehaviour.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\ModBehaviour.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\ModBehaviour.cs",
-              "RelativeToolTip": "FastModdingLib\\ModBehaviour.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAqwBsAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:38:40.087Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Singleton.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\Singleton.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Utils\\Singleton.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\Singleton.cs",
-              "RelativeToolTip": "FastModdingLib\\Utils\\Singleton.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T16:46:42.616Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "I18n.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\I18n.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\I18n.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\I18n.cs",
-              "RelativeToolTip": "FastModdingLib\\I18n.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAAAHEAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:38:11.397Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "fml.json",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\fml.json",
-              "RelativeDocumentMoniker": "FastModdingLib\\fml.json",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\fml.json",
-              "RelativeToolTip": "FastModdingLib\\fml.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-29T16:46:10.336Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "EconomyUtils.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\EconomyUtils.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\EconomyUtils.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\EconomyUtils.cs",
-              "RelativeToolTip": "FastModdingLib\\EconomyUtils.cs",
-              "ViewState": "AgIAAIcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:48:33.092Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "DecomposeRegistry.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\DecomposeRegistry.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\DecomposeRegistry.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\DecomposeRegistry.cs",
-              "RelativeToolTip": "FastModdingLib\\DecomposeRegistry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:48:43.399Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "ModPathResolver.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\ModPathResolver.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Utils\\ModPathResolver.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\ModPathResolver.cs",
-              "RelativeToolTip": "FastModdingLib\\Utils\\ModPathResolver.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAgwEAAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T07:26:05.539Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "GameEventAdapters.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
-              "RelativeToolTip": "FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAABgAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-29T08:23:54.74Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
               "Title": "AudioObjectMixin.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Audio\\AudioObjectMixin.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Audio\\AudioObjectMixin.cs",
               "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Audio\\AudioObjectMixin.cs",
               "RelativeToolTip": "FastModdingLib\\Audio\\AudioObjectMixin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-27T03:47:00.225Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 3,
               "Title": "AudioData.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Audio\\AudioData.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Audio\\AudioData.cs",
@@ -462,20 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "RegistryManager.cs",
-              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\RegistryManager.cs",
-              "RelativeDocumentMoniker": "FastModdingLib\\Register\\RegistryManager.cs",
-              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\RegistryManager.cs",
-              "RelativeToolTip": "FastModdingLib\\Register\\RegistryManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:47:02.903Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 1,
               "Title": "AudioUtil.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Audio\\AudioUtil.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Audio\\AudioUtil.cs",
@@ -488,7 +265,260 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 0,
+              "Title": "ModManagerPatches.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModManagerPatches.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModManagerPatches.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModManagerPatches.cs",
+              "RelativeToolTip": "FastModdingLib\\Modding\\ModManagerPatches.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T16:46:51.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FMLBootstrap.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FMLBootstrap.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\FMLBootstrap.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FMLBootstrap.cs",
+              "RelativeToolTip": "FastModdingLib\\FMLBootstrap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T08:55:29.913Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ShopGoodsData.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopGoodsData.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopGoodsData.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopGoodsData.cs",
+              "RelativeToolTip": "FastModdingLib\\Shop\\ShopGoodsData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T10:49:46.361Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ShopUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\Shop\\ShopUtils.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAD4v2sAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T10:50:00.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "FastModdingLib.csproj",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FastModdingLib.csproj",
+              "RelativeDocumentMoniker": "FastModdingLib\\FastModdingLib.csproj",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\FastModdingLib.csproj",
+              "RelativeToolTip": "FastModdingLib\\FastModdingLib.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-30T11:14:55.162Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AssetUtil.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\AssetUtil.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\AssetUtil.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\AssetUtil.cs",
+              "RelativeToolTip": "FastModdingLib\\AssetUtil.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAIAwwCcAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-27T03:46:40.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "EnemyUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Entities\\EnemyUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Entities\\EnemyUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Entities\\EnemyUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\Entities\\EnemyUtils.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAD4v6AAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:49:50.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CraftingUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\CraftingUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\CraftingUtils.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAMwKQAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-27T03:46:43.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CraftingFormulaRegistry.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingFormulaRegistry.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\CraftingFormulaRegistry.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\CraftingFormulaRegistry.cs",
+              "RelativeToolTip": "FastModdingLib\\CraftingFormulaRegistry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-28T12:10:16.799Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ModDependencyResolver.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModDependencyResolver.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModDependencyResolver.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModDependencyResolver.cs",
+              "RelativeToolTip": "FastModdingLib\\Modding\\ModDependencyResolver.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T16:46:46.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ShopRegistry.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopRegistry.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Shop\\ShopRegistry.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Shop\\ShopRegistry.cs",
+              "RelativeToolTip": "FastModdingLib\\Shop\\ShopRegistry.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAMwBcAAABxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T08:32:41.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ModMeta.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModMeta.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Modding\\ModMeta.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Modding\\ModMeta.cs",
+              "RelativeToolTip": "FastModdingLib\\Modding\\ModMeta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T16:46:52.914Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ModBehaviour.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\ModBehaviour.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\ModBehaviour.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\ModBehaviour.cs",
+              "RelativeToolTip": "FastModdingLib\\ModBehaviour.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAqwBsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:38:40.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Singleton.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\Singleton.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Utils\\Singleton.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\Singleton.cs",
+              "RelativeToolTip": "FastModdingLib\\Utils\\Singleton.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T16:46:42.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "I18n.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\I18n.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\I18n.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\I18n.cs",
+              "RelativeToolTip": "FastModdingLib\\I18n.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAAAHEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:38:11.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "fml.json",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\fml.json",
+              "RelativeDocumentMoniker": "FastModdingLib\\fml.json",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\fml.json",
+              "RelativeToolTip": "FastModdingLib\\fml.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-29T16:46:10.336Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "EconomyUtils.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\EconomyUtils.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\EconomyUtils.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\EconomyUtils.cs",
+              "RelativeToolTip": "FastModdingLib\\EconomyUtils.cs",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:48:33.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "DecomposeRegistry.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\DecomposeRegistry.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\DecomposeRegistry.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\DecomposeRegistry.cs",
+              "RelativeToolTip": "FastModdingLib\\DecomposeRegistry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:48:43.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ModPathResolver.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\ModPathResolver.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Utils\\ModPathResolver.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Utils\\ModPathResolver.cs",
+              "RelativeToolTip": "FastModdingLib\\Utils\\ModPathResolver.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAgwEAAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T07:26:05.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "GameEventAdapters.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
+              "RelativeToolTip": "FastModdingLib\\Events\\Adapters\\GameEventAdapters.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAABgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-29T08:23:54.74Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "RegistryManager.cs",
+              "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\RegistryManager.cs",
+              "RelativeDocumentMoniker": "FastModdingLib\\Register\\RegistryManager.cs",
+              "ToolTip": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\RegistryManager.cs",
+              "RelativeToolTip": "FastModdingLib\\Register\\RegistryManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-27T03:47:02.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
               "Title": "SimpleRegistry.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\SimpleRegistry.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Register\\SimpleRegistry.cs",
@@ -496,12 +526,11 @@
               "RelativeToolTip": "FastModdingLib\\Register\\SimpleRegistry.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:47:03.626Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T03:47:03.626Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "NonAlterableSimpleRegistry.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\NonAlterableSimpleRegistry.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Register\\NonAlterableSimpleRegistry.cs",
@@ -509,12 +538,11 @@
               "RelativeToolTip": "FastModdingLib\\Register\\NonAlterableSimpleRegistry.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:47:04.165Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T03:47:04.165Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "ERegistry.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\ERegistry.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Register\\ERegistry.cs",
@@ -526,7 +554,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "IRegistry.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Register\\IRegistry.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Register\\IRegistry.cs",
@@ -534,12 +562,11 @@
               "RelativeToolTip": "FastModdingLib\\Register\\IRegistry.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T03:47:05.204Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T03:47:05.204Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "QuestData.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Quests\\QuestData.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Quests\\QuestData.cs",
@@ -547,12 +574,11 @@
               "RelativeToolTip": "FastModdingLib\\Quests\\QuestData.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T04:15:38.132Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T04:15:38.132Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "BulletData.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Items\\BulletData.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Items\\BulletData.cs",
@@ -564,7 +590,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 30,
               "Title": "QuestUtils.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Quests\\QuestUtils.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Quests\\QuestUtils.cs",
@@ -572,12 +598,11 @@
               "RelativeToolTip": "FastModdingLib\\Quests\\QuestUtils.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T04:15:35.647Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T04:15:35.647Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "TaskKillCountFix.cs",
               "DocumentMoniker": "D:\\duckov_modding\\Duckov-Fast-Modding-Lib\\FastModdingLib\\Quests\\TaskKillCountFix.cs",
               "RelativeDocumentMoniker": "FastModdingLib\\Quests\\TaskKillCountFix.cs",
@@ -585,8 +610,7 @@
               "RelativeToolTip": "FastModdingLib\\Quests\\TaskKillCountFix.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-27T04:15:36.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-27T04:15:36.5Z"
             }
           ]
         }
