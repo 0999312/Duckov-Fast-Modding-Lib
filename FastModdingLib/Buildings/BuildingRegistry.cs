@@ -32,6 +32,15 @@ namespace FastModdingLib
             return _prefabs.TryGetValue(buildingId, out prefab);
         }
 
+        /// <summary>获取全部已注册的 BuildingInfo（供 Patch 层遍历）。</summary>
+        public IEnumerable<BuildingInfo> GetAllInfos()
+        {
+            foreach (var kvp in this)
+            {
+                yield return kvp.Value;
+            }
+        }
+
         protected override void OnRemoved(Identifier id, BuildingInfo value, string? modid)
         {
             var collection = GameplayDataSettings.BuildingDataCollection;

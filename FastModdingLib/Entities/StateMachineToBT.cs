@@ -29,7 +29,7 @@ namespace FastModdingLib.Entities
                 bt.name = "FML_Compiled_" + config.GetType().Name;
 
                 Type graphType = FindType(GRAPH_TYPE);
-                if (graphType == null) { Debug.LogError("[StateMachineToBT] Graph type not found."); return bt; }
+                if (graphType == null) { Debug.LogError("[StateMachineToBT] Graph type not found."); return null; }
                 var graph = Activator.CreateInstance(graphType, nonPublic: true);
 
                 var gf = btType.GetField("graph", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -38,7 +38,7 @@ namespace FastModdingLib.Entities
 
                 var addNode = graphType.GetMethod("AddNode", Type.EmptyTypes)
                     ?? graphType.GetMethod("AddNode", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                if (addNode == null) { Debug.LogError("[StateMachineToBT] Graph.AddNode not found."); return bt; }
+                if (addNode == null) { Debug.LogError("[StateMachineToBT] Graph.AddNode not found."); return null; }
 
                 var stateNodes = new Dictionary<string, object>(states.Count);
                 foreach (var state in states)

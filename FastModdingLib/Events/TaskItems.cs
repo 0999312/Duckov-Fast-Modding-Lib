@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Threading;
 
 namespace FastModdingLib.Events
@@ -82,7 +82,7 @@ namespace FastModdingLib.Events
     }
 
     /// <summary>
-    /// 异步（协程）handler 包装基类。
+    /// 异步（UniTask）handler 包装基类。
     /// 同步 <see cref="Delegate(Event)"/> 不应被调用，调用即抛 <see cref="NotSupportedException"/>。
     /// </summary>
     public abstract class AsyncTaskItemBase : TaskItemBase
@@ -103,44 +103,36 @@ namespace FastModdingLib.Events
         }
 
         /// <summary>
-        /// 派发事件并返回协程 IEnumerator；由 <see cref="AsyncEventBus"/> 通过
-        /// <see cref="EventBusRunner"/> 启动。
+        /// 派发事件并返回 <see cref="UniTask"/>；由 <see cref="AsyncEventBus"/> 按序 await。
         /// </summary>
-        public abstract IEnumerator DelegateAsync(Event evt);
+        public abstract UniTask DelegateAsync(Event evt);
     }
 
     /// <summary>
-    /// 异步（协程）handler 包装。
+    /// 异步（UniTask）handler 包装。
     /// </summary>
     public sealed class AsyncTaskItem<T> : AsyncTaskItemBase where T : Event
     {
-        private static readonly IEnumerator EmptyCoroutine = EmptyEnumerator();
+        private readonly Func<T, UniTask> _handler;
 
-        private readonly Func<T, IEnumerator> _handler;
-
-        public AsyncTaskItem(Func<T, IEnumerator> handler, int priority, object? ownerMod)
+        public AsyncTaskItem(Func<T, UniTask> handler, int priority, object? ownerMod)
             : base(priority, ownerMod)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
-        public override IEnumerator DelegateAsync(Event evt)
+        public override UniTask DelegateAsync(Event evt)
         {
             if (evt is T typed)
             {
                 return _handler(typed);
             }
-            return EmptyCoroutine;
+            return UniTask.CompletedTask;
         }
 
         /// <summary>
         /// 暴露内部 delegate 引用，供 <see cref="AsyncEventBus.Unregister{T}"/> 精确匹配。
         /// </summary>
-        internal Func<T, IEnumerator> Handler => _handler;
-
-        private static IEnumerator EmptyEnumerator()
-        {
-            yield break;
-        }
+        internal Func<T, UniTask> Handler => _handler;
     }
 }

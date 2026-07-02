@@ -1,13 +1,13 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace FastModdingLib.Events
 {
     /// <summary>
-    /// 异步（协程）事件总线。handler 为 <see cref="Func{T, IEnumerator}"/>，
-    /// 通过注入的 <see cref="EventBusRunner"/> 启动协程。
-    /// 同 <see cref="EventBus"/> 维护 _byOwner 索引以支持批量卸载（PLAN §5.2）。
+    /// 异步（UniTask）事件总线。handler 为 <see cref="Func{T, UniTask}"/>，
+    /// 通过 UniTask PlayerLoop 调度，无需 MonoBehaviour 协程宿主。
+    /// 同 <see cref="EventBus"/> 维护 _byOwner 索引以支持批量卸载。
     /// </summary>
     public sealed class AsyncEventBus
     {
@@ -15,22 +15,13 @@ namespace FastModdingLib.Events
         private readonly Dictionary<object, List<AsyncTaskItemBase>> _byOwner =
             new Dictionary<object, List<AsyncTaskItemBase>>();
         private readonly object _lock = new object();
-        private EventBusRunner? _runner;
 
-        /// <summary>
-        /// 注入协程宿主。由 Bootstrap 在创建 runner 后调用（internal：EventBusRunner 不对外暴露）。
-        /// </summary>
-        internal void Init(EventBusRunner runner)
-        {
-            _runner = runner ?? throw new ArgumentNullException(nameof(runner));
-        }
-
-        public void Register<T>(Func<T, IEnumerator> handler) where T : Event
+        public void Register<T>(Func<T, UniTask> handler) where T : Event
         {
             Register<T>(handler, 0, null);
         }
 
-        public void Register<T>(Func<T, IEnumerator> handler, int priority, object? ownerMod) where T : Event
+        public void Register<T>(Func<T, UniTask> handler, int priority, object? ownerMod) where T : Event
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
             var item = new AsyncTaskItem<T>(handler, priority, ownerMod);
@@ -49,7 +40,7 @@ namespace FastModdingLib.Events
             }
         }
 
-        public bool Unregister<T>(Func<T, IEnumerator> handler) where T : Event
+        public bool Unregister<T>(Func<T, UniTask> handler) where T : Event
         {
             if (handler == null) throw new ArgumentNullException(nameof(handler));
             lock (_lock)
@@ -97,19 +88,13 @@ namespace FastModdingLib.Events
         }
 
         /// <summary>
-        /// 广播事件。按 priority 降序依次启动 handler 协程；遇 Cancelled 停止后续。
-        /// 完成后调用 onComplete（传入 evt.Cancelled）。
-        /// 内部 ToArray() snapshot 后迭代（PLAN §13）。
+        /// 广播事件。按 priority 降序依次 await handler；遇 Cancelled 停止后续。
+        /// 内部 ToArray() snapshot 后迭代，避免迭代中 Unregister 引发并发修改。
         /// </summary>
-        public IEnumerator Post(Event evt, Action<bool>? onComplete = null)
+        public async UniTask Post(Event evt)
         {
             if (evt == null) throw new ArgumentNullException(nameof(evt));
-            if (_runner == null)
-            {
-                throw new InvalidOperationException(
-                    "AsyncEventBus has not been initialized with an EventBusRunner. " +
-                    "Call Init(runner) before posting events.");
-            }
+
             AsyncTaskItemBase[] snapshot;
             lock (_lock)
             {
@@ -120,15 +105,16 @@ namespace FastModdingLib.Events
             }
             foreach (var task in snapshot)
             {
-                IEnumerator coroutine = task.DelegateAsync(evt);
-                if (coroutine != null)
+                try
                 {
-                    _runner.Run(coroutine);
+                    await task.DelegateAsync(evt);
+                }
+                catch (Exception ex)
+                {
+                    UnityEngine.Debug.LogError($"[AsyncEventBus] Handler threw for {evt.GetType().Name}: {ex}");
                 }
                 if (evt.Cancelled) break;
             }
-            onComplete?.Invoke(evt.Cancelled);
-            yield break;
         }
 
         private void RemoveFromOwner(AsyncTaskItemBase item)

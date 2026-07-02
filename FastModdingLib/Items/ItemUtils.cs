@@ -1,4 +1,5 @@
-﻿using Duckov.ItemBuilders;
+﻿using Cysharp.Threading.Tasks;
+using Duckov.ItemBuilders;
 using Duckov.Utilities;
 using FastModdingLib.Register;
 using FastModdingLib.Utils;
@@ -114,6 +115,71 @@ namespace FastModdingLib
             }
         }
 
+        // ===== 异步 Sprite 加载（推荐：加载阶段减少 IO 阻塞） =====
+
+        /// <summary>
+        /// 【推荐】异步加载 Sprite。modid 从调用方程序集名自动推导。
+        /// 文件 IO 在线程池执行，Texture2D 创建在主线程。用于加载阶段加速。
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static async UniTask<Sprite?> LoadSpriteAsync(string resourceName, int NEW_ITEM_ID)
+        {
+            var callingAssembly = System.Reflection.Assembly.GetCallingAssembly();
+            var id = new Identifier(callingAssembly.GetName().Name, resourceName);
+            return await LoadSpriteAsync(id, NEW_ITEM_ID);
+        }
+
+        /// <summary>
+        /// 【推荐】异步加载 Sprite。文件 IO 在线程池执行，Texture2D 创建在主线程。
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static async UniTask<Sprite?> LoadSpriteAsync(Identifier id, int NEW_ITEM_ID)
+        {
+            var modDir = ModPathResolver.ResolveDirectory(id.Domain);
+            return await LoadSpriteFromDirAsync(modDir, id.Path, NEW_ITEM_ID);
+        }
+
+        /// <summary>
+        /// 【推荐】从指定目录异步加载 Sprite。
+        /// 文件 IO 通过 <c>UniTask.RunOnThreadPool</c> 在线程池执行，避免阻塞主线程；
+        /// Texture2D.LoadImage / Apply / Sprite.Create 回到主线程完成。
+        /// </summary>
+        public static async UniTask<Sprite?> LoadSpriteFromDirAsync(string modDirectory, string resourceName, int NEW_ITEM_ID)
+        {
+            try
+            {
+                StringBuilder assetLoc = new StringBuilder($"assets/textures/");
+                assetLoc.Append(resourceName);
+                string fileLoc = Path.Combine(modDirectory, assetLoc.ToString());
+                if (File.Exists(fileLoc) == false)
+                {
+                    Debug.LogError("Sprite is missing: " + fileLoc);
+                    return null;
+                }
+
+                // 文件 IO 在线程池执行 —— 加载阶段多个 Sprite 可并行读取
+                byte[] imageData = await UniTask.RunOnThreadPool(() => File.ReadAllBytes(fileLoc));
+
+                // 回到主线程 —— Texture2D / Sprite API 必须在主线程
+                Texture2D texture2D = new Texture2D(2, 2, TextureFormat.RGBA32, mipChain: false);
+                if (!texture2D.LoadImage(imageData))
+                {
+                    Debug.LogError($"Invalid sprite image, Resource:{resourceName}");
+                    UnityEngine.Object.Destroy(texture2D);
+                    return null;
+                }
+                texture2D.filterMode = FilterMode.Bilinear;
+                texture2D.Apply();
+                Sprite sprite = Sprite.Create(texture2D, new Rect(0f, 0f, texture2D.width, texture2D.height), new Vector2(0.5f, 0.5f), 100f);
+                return sprite;
+            }
+            catch (Exception arg)
+            {
+                Debug.LogError($"Except on loading sprite: {arg}");
+                return null;
+            }
+        }
+
         // ===== 物品构造 =====
 
         /// <summary>
@@ -152,6 +218,60 @@ namespace FastModdingLib
             SetItemProperties(component, config);
 
             return component;
+        }
+
+        /// <summary>
+        /// 【推荐】异步创建自定义 Item 实例（不注册到 Registry）。Sprite 加载使用异步 IO。
+        /// 加载阶段使用可显著减少 IO 阻塞时间。
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static async UniTask<Item> GetCustomItemAsync(Identifier id, ItemData config)
+        {
+            var modDir = ModPathResolver.ResolveDirectory(id.Domain);
+            ItemBuilder itemBuilder = ItemBuilder.New()
+                .TypeID(config.itemId)
+                .EnableStacking(config.maxStackCount, 1)
+                .Icon(await LoadSpriteFromDirAsync(modDir, config.spritePath, config.itemId));
+
+            config.modifiers.ForEach(modifier =>
+            {
+                itemBuilder.Modifier(modifier.getModifier());
+            });
+
+            Item component = itemBuilder
+                .Instantiate();
+
+            UnityEngine.Object.DontDestroyOnLoad(component);
+            SetItemProperties(component, config);
+
+            return component;
+        }
+
+        /// <summary>
+        /// 【推荐】异步创建并注册自定义物品。Sprite 加载使用异步 IO。
+        /// modid 从 <see cref="Identifier.Domain"/> 推导。
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static async UniTask CreateCustomItemAsync(Identifier id, ItemData config)
+        {
+            var modDir = ModPathResolver.ResolveDirectory(id.Domain);
+            ItemBuilder itemBuilder = ItemBuilder.New()
+                .TypeID(config.itemId)
+                .EnableStacking(config.maxStackCount, 1)
+                .Icon(await LoadSpriteFromDirAsync(modDir, config.spritePath, config.itemId));
+
+            config.modifiers.ForEach(modifier =>
+            {
+                itemBuilder.Modifier(modifier.getModifier());
+            });
+
+            Item component = itemBuilder
+                .Instantiate();
+
+            UnityEngine.Object.DontDestroyOnLoad(component);
+            SetItemProperties(component, config);
+
+            RegisterItem(id, component);
         }
 
         /// <summary>
@@ -324,6 +444,21 @@ namespace FastModdingLib
         }
 
         /// <summary>
+        /// 按 Identifier 反查已注册的自定义物品。Identifier 版本。
+        /// 内部通过 <see cref="TryResolveTypeId"/> 将 Identifier 解析为原生 TypeID。
+        /// </summary>
+        /// <param name="id">物品 Identifier（与 CreateCustomItem 注册时使用的 id 一致）。</param>
+        /// <param name="item">找到的物品实例；若未找到则为 null。</param>
+        /// <returns>找到物品返回 true；否则 false。</returns>
+        public static bool TryGetCustomItem(Identifier id, out Item? item)
+        {
+            if (TryResolveTypeId(id, out int typeId))
+                return TryGetCustomItem(typeId, out item);
+            item = null;
+            return false;
+        }
+
+        /// <summary>
         /// 将 <see cref="Identifier"/> 解析为物品的 TypeID。
         /// 供 ShopUtils / QuestUtils / CraftingUtils 等模块在注册时将 item Identifier 转为 int typeID。
         /// 查询 <see cref="RegistryManager.Instance.ItemID"/> 中已注册的自定义物品。
@@ -374,6 +509,44 @@ namespace FastModdingLib
             ItemUtils.SetItemProperties(component, config);
             ItemSetting_Bullet setting = component.AddComponent<ItemSetting_Bullet>();
             ItemUtils.RegisterItem(id, component);
+        }
+
+        /// <summary>
+        /// 检查物品是否有指定标签。
+        /// 通过 <see cref="ItemAssetsCollection.GetMetaData"/> 查询物品元数据中的标签列表。
+        /// </summary>
+        /// <param name="item">待检查的物品。</param>
+        /// <param name="tag">标签名称。</param>
+        /// <returns>物品包含指定标签时返回 true。</returns>
+        public static bool HasTag(Item item, string tag)
+        {
+            if (item == null || string.IsNullOrEmpty(tag)) return false;
+            try
+            {
+                var meta = ItemAssetsCollection.GetMetaData(item.TypeID);
+                // 反射访问 Tags 属性（ItemMetaData 是 struct，不能直接 ?.）
+                var tagsProp = meta.GetType().GetProperty("Tags");
+                if (tagsProp != null)
+                {
+                    var tags = tagsProp.GetValue(meta) as System.Collections.IEnumerable;
+                    if (tags != null)
+                    {
+                        foreach (var t in tags)
+                        {
+                            if (t != null)
+                            {
+                                var nameProp = t.GetType().GetProperty("name");
+                                var name = nameProp?.GetValue(t) as string;
+                                if (name == tag) return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return false;
         }
     }
 }

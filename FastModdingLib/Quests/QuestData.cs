@@ -130,6 +130,49 @@ namespace FastModdingLib
             return task;
         }
     }
+
+    /// <summary>🆕 Phase 5: 标签击杀任务数据。</summary>
+    public class TaskKillByTagData : TaskData
+    {
+        public int requireAmount = 1;
+        public string? weaponTag;
+        public string? requireEnemyName;
+        public bool requireHeadShot;
+
+        public override Task SetTask(Quest quest)
+        {
+            var task = quest.gameObject.AddComponent<FMLTask_KillCountByTag>();
+            task.id = id;
+            task.RequireAmount = requireAmount;
+            task.WeaponTag = weaponTag ?? "";
+            task.RequireEnemyName = requireEnemyName ?? "";
+            task.RequireHeadShot = requireHeadShot;
+            task.master = quest;
+            return task;
+        }
+    }
+
+    /// <summary>🆕 Phase 5: 标签提交物品任务数据。</summary>
+    public class TaskSubmitItemByTagData : TaskData
+    {
+        public string? itemTag;
+        public int requireAmount = 1;
+        public int? minQuality;
+        public bool durabilityCost;
+
+        public override Task SetTask(Quest quest)
+        {
+            var task = quest.gameObject.AddComponent<FMLTask_SubmitItemByTag>();
+            task.id = id;
+            task.ItemTag = itemTag ?? "";
+            task.RequireAmount = requireAmount;
+            task.MinQuality = minQuality;
+            task.DurabilityCost = durabilityCost;
+            task.master = quest;
+            return task;
+        }
+    }
+
     public abstract class RewardData
     {
         public abstract Reward SetReward(Quest quest);

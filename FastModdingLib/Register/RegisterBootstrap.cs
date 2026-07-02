@@ -28,14 +28,15 @@ namespace FastModdingLib.Register
             BuildingUtils.Init();
             PerkTreeUtils.Init();
             EnemyUtils.Init();
+            EndowmentUtils.Init();
 
             // —— Quests / Shop 由本 bootstrap 注册（不自注册，原因见模块文档） ——
             meta.SetIfAbsent(
-                new Identifier("fastmoddinglib", "quest"),
+                new Identifier(FMLConstants.Domain, "quest"),
                 QuestUtils.Registry,
                 RegistryManager.CurrentModid);
             meta.SetIfAbsent(
-                new Identifier("fastmoddinglib", "shop"),
+                new Identifier(FMLConstants.Domain, "shop"),
                 ShopUtils.Registry,
                 RegistryManager.CurrentModid);
         }

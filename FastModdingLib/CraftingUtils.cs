@@ -1,6 +1,8 @@
 ﻿using Duckov.Economy;
+using FastModdingLib.Crafting;
 using FastModdingLib.Register;
 using FastModdingLib.Utils;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,9 +18,9 @@ namespace FastModdingLib
             craftingFormulaRegistry = new CraftingFormulaRegistry();
             decomposeRegistry = new DecomposeRegistry();
             RegistryManager.Instance.Registry.Set(
-                new Identifier("fastmoddinglib", "crafting_formula"), craftingFormulaRegistry);
+                new Identifier(FMLConstants.Domain, "crafting_formula"), craftingFormulaRegistry);
             RegistryManager.Instance.Registry.Set(
-                new Identifier("fastmoddinglib", "decompose"), decomposeRegistry);
+                new Identifier(FMLConstants.Domain, "decompose"), decomposeRegistry);
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -34,11 +36,43 @@ namespace FastModdingLib
             string formulaId = data.Id.Path;
             var tags = data.Tags ?? new[] { "WorkBenchAdvanced" };
 
+            // 分离标签成本与标准成本
+            var tagCosts = new List<TagItemCost>();
+            var standardEntries = new List<ItemEntry>();
+            foreach (var entry in data.CostItems ?? System.Array.Empty<ItemEntry>())
+            {
+                if (entry.IsTagMatch)
+                {
+                    tagCosts.Add(new TagItemCost
+                    {
+                        Tag = entry.ItemTag,
+                        Amount = entry.Amount,
+                        MinQuality = entry.MinQuality,
+                        DurabilityCost = entry.DurabilityCost
+                    });
+                }
+                else
+                {
+                    standardEntries.Add(entry);
+                }
+            }
+
+            // 注册标签成本
+            if (tagCosts.Count > 0)
+            {
+                TagCostRegistry.Register(formulaId, new TagCostEntry
+                {
+                    FormulaId = formulaId,
+                    Costs = tagCosts.ToArray(),
+                    Modid = owner
+                });
+            }
+
             AddCraftingFormulaInternal(
                 id: data.Id,
                 formulaId: formulaId,
                 money: data.Money,
-                costItems: ResolveItems(data.CostItems),
+                costItems: ResolveItems(standardEntries.ToArray()),
                 resultItemId: data.Result.ResolveTypeId(),
                 resultItemAmount: data.Result.Amount,
                 tags: tags,

@@ -1,8 +1,6 @@
-# EventBus 开发计划 (PLAN-EventBus.md)
+# EventBus 开发计划 (PLAN-EventBus.md) 📦 已归档
 
-> 参考来源：`DecompiledDLL/Event/`（个人其他项目的反编译产物）
-> 路线归属：补入 `PLAN.md` Phase 1 — 框架内核加固（跨模块基础设施）
-> 声明：本计划**不走 GSD 工作流**；按本文直接进入实现。
+> **状态**：✅ 全部完成，已归档。实施成果已合入 `FastModdingLib/Events/`。
 
 ---
 

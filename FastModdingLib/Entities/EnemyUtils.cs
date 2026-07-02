@@ -27,7 +27,7 @@ namespace FastModdingLib
             _initialized = true;
 
             var meta = RegistryManager.Instance.Registry;
-            var id = new Identifier("fastmoddinglib", "enemy");
+            var id = new Identifier(FMLConstants.Domain, "enemy");
             if (meta is NonAlterableSimpleRegistry<ERegistry> nonAlt)
                 nonAlt.SetIfAbsent(id, _enemyRegistry, RegistryManager.CurrentModid);
             else

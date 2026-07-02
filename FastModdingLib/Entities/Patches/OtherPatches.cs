@@ -33,7 +33,7 @@ namespace FastModdingLib.Entities.Patches
 
                 // 检查此 preset 是否在 FML EnemyRegistry 中
                 var meta = RegistryManager.Instance.Registry;
-                if (meta.TryGet(new Identifier("fastmoddinglib", "enemy"), out ERegistry raw) &&
+                if (meta.TryGet(new Identifier(FMLConstants.Domain, "enemy"), out ERegistry raw) &&
                     raw is EnemyRegistry enemyReg)
                 {
                     // 按 nameKey 反查 Identifier（遍历 registry）
@@ -125,7 +125,7 @@ namespace FastModdingLib.Entities.Patches
 
                 // 从元表获取 EnemyRegistry
                 var meta = RegistryManager.Instance.Registry;
-                if (!meta.TryGet(new Identifier("fastmoddinglib", "enemy"), out ERegistry raw) ||
+                if (!meta.TryGet(new Identifier(FMLConstants.Domain, "enemy"), out ERegistry raw) ||
                     !(raw is EnemyRegistry enemyReg))
                     return;
 
@@ -272,7 +272,7 @@ namespace FastModdingLib.Entities.Patches
 
                 // 从元表获取 EnemyRegistry
                 var meta = RegistryManager.Instance.Registry;
-                if (!meta.TryGet(new Identifier("fastmoddinglib", "enemy"), out ERegistry raw) ||
+                if (!meta.TryGet(new Identifier(FMLConstants.Domain, "enemy"), out ERegistry raw) ||
                     !(raw is EnemyRegistry enemyReg))
                     return;
 

@@ -109,7 +109,7 @@ namespace FastModdingLib
         public static Buff FindBuff(int id)
         {
             // 优先查 FML Registry（支持自定义 Buff），回退到游戏内置列表
-            return BuffUtils.FindBuff(id) ?? GameplayDataSettings.Buffs.allBuffs?.Find(buff => buff != null && buff.id == id) ?? null!;
+            return BuffUtils.FindBuff(id) ?? GameplayDataSettings.Buffs.allBuffs?.Find(buff => buff != null && buff.id == id)!;
         }
     }
 

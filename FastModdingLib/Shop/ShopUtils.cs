@@ -92,6 +92,18 @@ namespace FastModdingLib
         }
 
         /// <summary>
+        /// 按 Identifier 移除单个由 <see cref="AddGoods"/> 注册的商品。Identifier 版本。
+        /// Identifier 需与 <see cref="AddGoods"/> 注册时内部生成的 id 一致
+        /// （格式为 <c>shop_{merchantProfileID}_{typeID}</c>）。
+        /// 通常建议使用 <see cref="ShopGoodsData.itemIdentifier"/> 进行查询。
+        /// </summary>
+        /// <returns>找到并移除返回 true；registry 中无此条目返回 false。</returns>
+        public static bool RemoveGoods(Identifier id)
+        {
+            return _shopRegistry.Remove(id);
+        }
+
+        /// <summary>
         /// 修改已注册 goods 的可变属性（maxStock / forceUnlock / priceFactor / possibility）。
         /// 通过 registry 找到已登记的 <see cref="StockShopDatabase.ItemEntry"/> 引用，
         /// 直接 mutate 其字段——同一对象引用同时存在于 native entries 列表，故 native 侧同步生效。
@@ -109,6 +121,21 @@ namespace FastModdingLib
             {
                 return false;
             }
+            entry.maxStock = newData.maxStock;
+            entry.forceUnlock = newData.forceUnlock;
+            entry.priceFactor = newData.priceFactor;
+            entry.possibility = newData.possibility;
+            return true;
+        }
+
+        /// <summary>
+        /// 按 Identifier 修改已注册 goods 的可变属性。Identifier 版本。
+        /// </summary>
+        /// <returns>找到并更新返回 true；registry 中无此条目返回 false。</returns>
+        public static bool EditGoods(Identifier id, ShopGoodsData newData)
+        {
+            if (!_shopRegistry.TryGet(id, out var entry))
+                return false;
             entry.maxStock = newData.maxStock;
             entry.forceUnlock = newData.forceUnlock;
             entry.priceFactor = newData.priceFactor;

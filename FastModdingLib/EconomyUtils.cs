@@ -2,6 +2,7 @@
 using FastModdingLib.Events;
 using FastModdingLib.Events.GameEvents;
 using FastModdingLib.Register;
+using FastModdingLib.Utils;
 using System;
 
 namespace FastModdingLib
@@ -81,6 +82,18 @@ namespace FastModdingLib
         }
 
         /// <summary>
+        /// 解锁指定物品（使其在对应商店中可见 / 可购买）。Identifier 版本。
+        /// 内部通过 <see cref="ItemUtils.TryResolveTypeId"/> 将 Identifier 解析为原生 TypeID。
+        /// </summary>
+        /// <param name="id">物品 Identifier（与 CreateCustomItem 注册时使用的 id 一致）。</param>
+        /// <inheritdoc cref="UnlockItem(int, bool, bool)"/>
+        public static void UnlockItem(Identifier id, bool needConfirm = false, bool showUI = true)
+        {
+            if (ItemUtils.TryResolveTypeId(id, out int typeId))
+                UnlockItem(typeId, needConfirm, showUI);
+        }
+
+        /// <summary>
         /// 确认一个处于"待确认解锁"队列中的物品，将其正式加入已解锁列表。
         /// 转发到 <c>EconomyManager.ConfirmUnlock(itemTypeID)</c>。
         /// </summary>
@@ -88,6 +101,16 @@ namespace FastModdingLib
         public static void ConfirmUnlockItem(int itemTypeId)
         {
             EconomyManager.ConfirmUnlock(itemTypeId);
+        }
+
+        /// <summary>
+        /// 确认一个处于"待确认解锁"队列中的物品。Identifier 版本。
+        /// </summary>
+        /// <param name="id">物品 Identifier。</param>
+        public static void ConfirmUnlockItem(Identifier id)
+        {
+            if (ItemUtils.TryResolveTypeId(id, out int typeId))
+                ConfirmUnlockItem(typeId);
         }
 
         /// <summary>
@@ -102,6 +125,16 @@ namespace FastModdingLib
         }
 
         /// <summary>
+        /// 查询物品是否已解锁。Identifier 版本。
+        /// </summary>
+        /// <param name="id">物品 Identifier。</param>
+        /// <returns>已解锁返回 true；Identifier 无法解析或未解锁返回 false。</returns>
+        public static bool IsItemUnlocked(Identifier id)
+        {
+            return ItemUtils.TryResolveTypeId(id, out int typeId) && IsItemUnlocked(typeId);
+        }
+
+        /// <summary>
         /// 查询物品是否处于"待确认解锁"队列中。
         /// 转发到 <c>EconomyManager.IsWaitingForUnlockConfirm(itemTypeID)</c>。
         /// </summary>
@@ -110,6 +143,16 @@ namespace FastModdingLib
         public static bool IsItemWaitingForUnlockConfirm(int itemTypeId)
         {
             return EconomyManager.IsWaitingForUnlockConfirm(itemTypeId);
+        }
+
+        /// <summary>
+        /// 查询物品是否处于"待确认解锁"队列中。Identifier 版本。
+        /// </summary>
+        /// <param name="id">物品 Identifier。</param>
+        /// <returns>在待确认队列中返回 true；Identifier 无法解析或不在队列中返回 false。</returns>
+        public static bool IsItemWaitingForUnlockConfirm(Identifier id)
+        {
+            return ItemUtils.TryResolveTypeId(id, out int typeId) && IsItemWaitingForUnlockConfirm(typeId);
         }
 
         // ---- 事件订阅便捷 API ----

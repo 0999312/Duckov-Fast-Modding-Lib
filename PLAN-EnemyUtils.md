@@ -1,10 +1,8 @@
-# EnemyUtils 开发计划 (PLAN-EnemyUtils.md)
+# EnemyUtils 开发计划 (PLAN-EnemyUtils.md) 📦 已归档
 
+> **状态**：✅ 全部完成，已归档。实施成果已合入 `FastModdingLib/Entities/`。
 > 方案归属：方案 A — Hybrid（modder 实现 `IStateConfig`，FML 编译为 NodeCanvas `BehaviourTree`）
 > 路线归属：`PLAN.md` Phase 3 — 内容创作系统（EnemyUtils 子模块）
-> 声明：本计划**不走 GSD 工作流**；按本文直接进入实现。
-> 
-> **实现状态：✅ 全部完成。**
 
 ---
 

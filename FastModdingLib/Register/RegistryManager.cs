@@ -39,7 +39,7 @@ namespace FastModdingLib.Register
 
         protected RegistryManager()
         {
-            Registry.Set(new Identifier("fastmoddinglib", "itemid"), ItemID);
+            Registry.Set(new Identifier(FMLConstants.Domain, "itemid"), ItemID);
         }
 
         /// <summary>

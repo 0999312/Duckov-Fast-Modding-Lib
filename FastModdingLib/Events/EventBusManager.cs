@@ -23,7 +23,8 @@ namespace FastModdingLib.Events
         public EventBus Sync => _sync;
 
         /// <summary>
-        /// 异步（协程）事件总线。需在 Bootstrap 阶段注入 EventBusRunner 后方可 Post。
+        /// 异步（UniTask）事件总线。handler 为 <see cref="System.Func{T, Cysharp.Threading.Tasks.UniTask}"/>，
+        /// 基于 UniTask PlayerLoop 调度，无需 MonoBehaviour 协程宿主。
         /// </summary>
         public AsyncEventBus Async => _async;
 

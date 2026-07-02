@@ -1,7 +1,7 @@
 # Fast-Modding-Lib 开发计划表 (PLAN.md)
 
 > 高层粒度的阶段性路线图。每个阶段进入实施前再细化为代码级子任务与验收标准。
-> 最后更新：2026-06-28
+> 最后更新：2026-07-01
 
 ---
 
@@ -51,11 +51,14 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
   `OnBeforeDeactivate` 调 TearDown + `RemoveAllByOwner` 自动清理
 
 ### Stub / 空缺（待补齐）
-- **Entities / EnemyUtils** — `EnemyUtils.GetPreset(name)` 18 LOC 单方法（Phase 3 待实现）
-- **Achievements** — 空缺（Phase 4）
-- **Weather** — 空缺（Phase 4）
-- **Fishing** — 空缺（Phase 4）
-- **Multi-Scene** — 空缺（Phase 4）
+- **Entities / EnemyUtils** — ✅ Phase 3 已完成（方案 A — Hybrid，`IStateConfig` + 10 个 Patch）
+- **Endowment** — ✅ Phase 4 已完成（EndowmentUtils + EndowmentRegistry + EndowmentManager Patch）
+- **Building 深化** — ✅ Phase 4 已完成（3 个 Harmony Postfix + PlaceBuilding 反射 + Identifier API）
+- **PerkTree 深化** — ✅ Phase 4 已完成（ConnectPerks 重写 + AddPerkBehaviour + RegisterPerkTree + 双 Patch）
+- **Achievements** — 空缺（Phase 5）
+- **Weather** — 空缺（Phase 5）
+- **Fishing** — 空缺（Phase 5）
+- **Multi-Scene** — 空缺（Phase 5）
 - **不纳入考虑**：
   - `/Duckov.BlackMarkets` —— 黑市系统不依赖 NPC/Character，事件 context 已公开，modder 可直接订阅；天然 mod 兼容，无需 FML 封装
   - `/Duckov.Crops` —— 反编译可见但游戏内未实装，等待官方完成后再评估
@@ -183,15 +186,30 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
 
 ---
 
-### Phase 4 — 长尾幂等系统（视社区需求）
-**目标**：低频但完整的系统逐个补，每个约半天到一天。
+### Phase 4 — Building / PerkTree / Endowment / UI 深化 ✅
+**状态**：全部完成。
+
+> 详细计划见 [`PLAN-Phase4-Building-Perk-Endowment-UI.md`](./PLAN-Phase4-Building-Perk-Endowment-UI.md)。
+
+Phase 3 已完成这四个系统的基础注册 API，Phase 4 针对性地补齐了全部功能缺口：
+
+| 子阶段 | 系统 | 范围 | 状态 |
+|--------|------|------|------|
+| **B1/B2** | Building | Harmony Patch 层（`GetInfo/GetPrefab/GetBuildingsToDisplay` Postfix + `BuyAndPlace` 反射公开）+ 注册完善（Identifier API） | ✅ 完成 |
+| **P1** | PerkTree | `ConnectPerks` 重写（去 try/catch）+ `AddPerkBehaviour<T>` + `RegisterPerkTree`（LevelConfig/Collect patch） | ✅ 完成 |
+| **E1** | Endowment | **完整从零实现**：`EndowmentUtils` + `EndowmentRegistry` + `EndowmentManager.Awake` Postfix 注入 + `SelectIndex` Prefix | ✅ 完成 |
+| **U1** | UI 交互 | `InteractableBase` 子类模板（Building/PerkTree/Endowment 各一）+ RegisterBootstrap 更新 | ✅ 完成 |
+
+**并行策略**：B1/P1/E1 互不依赖，可完全并行。
+
+### Phase 5 — 长尾幂等系统（视社区需求）
 
 - AchievementsUtils / WeatherUtils / FishingUtils / MultiSceneUtils
 - 优先级由社区反馈决定，未启动前不列入近期里程碑。
 
 ---
 
-### Phase 5 — 质量（贯穿每阶段末）
+### Phase 6 — 质量（贯穿每阶段末）
 **目标**：把"静态调用样例"升级为可信的回归保护网。
 
 - 引入 NUnit / xUnit
@@ -202,9 +220,10 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
 
 ---
 
-## 3. EnemyUtils 架构方案（待 Phase 3 启动时定夺）
+## 3. EnemyUtils 架构方案 ✅（Phase 3 已完成）
 
-> 三种方案的差异在"modder 写 AI 的姿势"和"运行时是否走 NodeCanvas"两个轴上。
+> **已实现**：方案 A — Hybrid（modder 实现 `IStateConfig`，FML 编译为 NodeCanvas `BehaviourTree`）。
+> 详见 [`PLAN-EnemyUtils.md`](./PLAN-EnemyUtils.md)（已归档）。
 
 ### 方案 A — Hybrid（FML 推荐）
 - **modder 视角**：实现 `IStateConfig` C# 接口（state + onUpdate/onEnter/onExit 回调 + transition 条件）
@@ -275,17 +294,18 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
 | Economy (money / unlock) | ✅ | Phase 2 完成 |
 | Buffs / 状态效果 | ✅ | Phase 2 完成 |
 | CustomOptions (设置 UI) | ✅ | Phase 2 完成 |
-| Perk Trees | ✅ | Phase 3 完成 |
-| Buildings | ✅ | Phase 3 完成 |
+| Perk Trees | ✅ | Phase 3 基础 + Phase 4 P1 深化（ConnectPerks 重写 + AddPerkBehaviour + RegisterPerkTree + 双 Patch） |
+| Buildings | ✅ | Phase 3 基础 + Phase 4 B1/B2 深化（3 个 Harmony Postfix + PlaceBuilding 反射 + Identifier API） |
+| **Endowment** | ✅ | Phase 4 E1 从零实现（EndowmentUtils + Registry + Patch，全部 Identifier 驱动） |
 | **Entities / AI / Spawner** | ✅ | Phase 3 EnemyUtils 完成（方案 A — Hybrid） |
 | ModBehaviour 生命周期 | ✅ | OnAfterSetup + OnBeforeDeactivate 完整卸载链 |
 | Save/Load 自定义数据 | ⚠️ | 通过 EventBus `CollectSaveDataEvent` 桥接，声明式基类待补 |
 | Crops / Farming | N/A | 反编译可见但游戏未实装，不纳入考虑 |
 | Black Market | N/A | 非 NPC 系统，事件 context 公开，不封装 |
-| Weather / Seasons | ❌ | 空缺 (Phase 4) |
-| Achievements / Statistics | ❌ | 空缺 (Phase 4) |
-| Fishing | ❌ | 空缺 (Phase 4) |
-| Multi-Scene | ❌ | 空缺 (Phase 4) |
+| Weather / Seasons | ❌ | 空缺 (Phase 5) |
+| Achievements / Statistics | ❌ | 空缺 (Phase 5) |
+| Fishing | ❌ | 空缺 (Phase 5) |
+| Multi-Scene | ❌ | 空缺 (Phase 5) |
 
 ---
 
@@ -302,15 +322,11 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
 
 ## 6. 关键子模块文档索引
 
-- **EventBus 详细设计** → [`PLAN-EventBus.md`](./PLAN-EventBus.md)
-  - 含参考来源、与 FML 现状的偏移决策、§5 两处参考缺陷的修复方案、
-    B1..B6 实施阶段拆分、Adapter 层 15 个游戏事件桥接清单、I18n 迁移路径
-- **Register 一体化详细设计** → [`PLAN-Register.md`](./PLAN-Register.md)
-  - 含现有抽象能力短板盘点、各模块旁路字典现状、`IRegistry<T>` 扩能契约、
-    `ReverseLookupRegistry<T,TKey>` 设计、owner (modid) 与 EventBus 的协同语义、
-    R1..R8 实施阶段拆分、Audio/Quests/Shop/Crafting/Items 五模块迁移细则
-- EnemyUtils 三方案对比 → 本文 §3
-- NodeCanvas 序列化补丁决定时机 → 本文 §3 末尾
+- **EventBus 详细设计 →** [`PLAN-EventBus.md`](./PLAN-EventBus.md) ✅ 已完成
+- **Register 一体化详细设计 →** [`PLAN-Register.md`](./PLAN-Register.md) ✅ 已完成
+- **EnemyUtils 三方案 →** [`PLAN-EnemyUtils.md`](./PLAN-EnemyUtils.md) ✅ 已完成（方案 A — Hybrid）
+- **Phase 4 深化实施 →** [`PLAN-Phase4-Building-Perk-Endowment-UI.md`](./PLAN-Phase4-Building-Perk-Endowment-UI.md) ✅ 已完成
+- EnemyUtils 三方案对比 → 本文 §3（已归档）
 
 ---
 
@@ -320,13 +336,20 @@ Buildings / PerkTrees / CustomOptions / Entities(待 EnemyUtils) 等模块。
 - ✅ **Phase 0** — 仓库卫生（全部完成）
 - ✅ **Phase 1** — 框架内核加固（EventBus B1–B6 + Register 一体化 R1–R8 + ModBehaviour 生命周期）
 - ✅ **Phase 2** — 头部消费系统（Economy / Buffs / CustomOptions）
-- ✅ **Phase 3** — 内容创作系统全部完成（Shop / Audio / Buildings / PerkTrees / EnemyUtils）
+- ✅ **Phase 3** — 内容创作系统全部完成（Shop / Audio / Buildings 基础 / PerkTrees 基础 / EnemyUtils）
+
+### ✅ 已完成
+- **Phase 4** — Building / PerkTree / Endowment / UI 深化（详见 [`PLAN-Phase4-Building-Perk-Endowment-UI.md`](./PLAN-Phase4-Building-Perk-Endowment-UI.md)）
+  - **B1/B2**：Building 3 个 Harmony Postfix + `PlaceBuilding` 反射实现 + Identifier API 迁移
+  - **P1**：PerkTree `ConnectPerks` 重写 + `AddPerkBehaviour` + `RegisterPerkTree` + 双 Patch
+  - **E1**：Endowment 从零实现（`EndowmentUtils` + `EndowmentRegistry` + `EndowmentManager` Patch）
+  - **U1**：UI 交互入口模板（3 个 InteractableBase 子类）
 
 ### 待启动
-- **Phase 4** — Achievements / Weather / Fishing / Multi-Scene（视社区需求）
-- **Phase 5** — NUnit 全量测试 + 示例 mod 子项目 + 中英双语 API 文档
+- **Phase 5** — Achievements / Weather / Fishing / Multi-Scene（视社区需求）
+- **Phase 6** — NUnit 全量测试 + 示例 mod 子项目 + 中英双语 API 文档
 
 ---
 
 *本 PLAN.md 仅为高层路线图。具体代码级执行计划在每个子模块文档单独产出
-（目前已有：PLAN-EventBus.md、PLAN-Register.md）。*
+（目前已有：PLAN-EventBus.md、PLAN-Register.md、PLAN-EnemyUtils.md、PLAN-Phase4-Building-Perk-Endowment-UI.md）。*

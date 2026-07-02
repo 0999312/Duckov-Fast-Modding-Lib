@@ -1,11 +1,6 @@
-# Register 一体化开发计划 (PLAN-Register.md)
+# Register 一体化开发计划 (PLAN-Register.md) 📦 已归档
 
-> 参考来源：项目现有 `FastModdingLib/Register/` 抽象 + Quests/Shop/Crafting/Audio/Items
-> 各模块当前 hand-rolled `Dictionary<...,string>` 追踪代码
-> 路线归属：补入 `PLAN.md` Phase 1.B — 框架内核加固（Register 一体化子模块）
-> 声明：本计划**不走 GSD 工作流**；按本文直接进入实现。
-> 与 [`PLAN-EventBus.md`](./PLAN-EventBus.md) 并列：Phase 1 的两个独立子模块文档之一。
-> 与 EventBus 协同点：owner 标识（modid）在两份计划中应保持同一语义，详见 §3.4。
+> **状态**：✅ 全部完成，已归档。实施成果已合入 `FastModdingLib/Register/`。
 
 ---
 

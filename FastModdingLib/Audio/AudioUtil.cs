@@ -12,7 +12,7 @@ namespace FastModdingLib.Audio
         private AudioUtil()
         {
             dataRegistry = new ReverseLookupRegistry<AudioData, string>(data => data.Eventname);
-            RegistryManager.Instance.Registry.Set(new Identifier("fastmoddinglib", "audio"), dataRegistry);
+            RegistryManager.Instance.Registry.Set(new Identifier(FMLConstants.Domain, "audio"), dataRegistry);
         }
 
         public void RegisterAudio(Identifier id, AudioData data)

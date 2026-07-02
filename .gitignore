@@ -30,3 +30,12 @@ Desktop.ini
 # NuGet
 *.nupkg
 **/packages/*
+
+# Codex/OpenCode CLI runtime artifacts
+token-optimizer/sessions/
+.omo/run-continuation/
+
+# SQLite runtime files
+*.db-wal
+*.db-shm
+*.db-sm

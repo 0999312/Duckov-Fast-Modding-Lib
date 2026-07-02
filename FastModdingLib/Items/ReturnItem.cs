@@ -1,6 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using ItemStatsSystem;
 using SodaCraft.Localizations;
+using System;
+using UnityEngine;
 
 namespace FastModdingLib
 {
@@ -35,32 +37,38 @@ namespace FastModdingLib
         protected override void OnUse(Item item, object user)
         {
             CharacterMainControl? characterMainControl = user as CharacterMainControl;
-            if (!(characterMainControl == null))
+            if (characterMainControl != null)
             {
                 Generate(characterMainControl).Forget();
             }
-
         }
         private bool running;
         private async UniTask Generate(CharacterMainControl character)
         {
-            if (running)
-            {
-                return;
-            }
+            if (running) return;
             running = true;
-            Item item = await ItemAssetsCollection.InstantiateAsync(ItemTypeID);
-            string displayName = item.DisplayName;
-            bool num = character.PickupItem(item);
-            if (!num && item != null)
+            try
             {
-                if (item.ActiveAgent != null)
+                Item item = await ItemAssetsCollection.InstantiateAsync(ItemTypeID);
+                string displayName = item.DisplayName;
+                bool num = character.PickupItem(item);
+                if (!num && item != null)
                 {
-                    item.AgentUtilities.ReleaseActiveAgent();
+                    if (item.ActiveAgent != null)
+                    {
+                        item.AgentUtilities.ReleaseActiveAgent();
+                    }
+                    PlayerStorage.Push(item);
                 }
-                PlayerStorage.Push(item);
             }
-            running = false;
+            catch (Exception e)
+            {
+                Debug.LogError($"[ReturnItem] Generate failed (ItemTypeID={ItemTypeID}): {e}");
+            }
+            finally
+            {
+                running = false;
+            }
         }
 
     }

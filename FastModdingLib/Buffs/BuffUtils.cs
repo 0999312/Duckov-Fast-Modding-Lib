@@ -22,7 +22,7 @@ namespace FastModdingLib
             _initialized = true;
 
             var meta = RegistryManager.Instance.Registry;
-            var id = new Identifier("fastmoddinglib", "buff");
+            var id = new Identifier(FMLConstants.Domain, "buff");
             // 幂等：已有则跳过（Audio/Crafting 等已自注册，用 SetIfAbsent）
             if (meta is NonAlterableSimpleRegistry<ERegistry> nonAlt)
                 nonAlt.SetIfAbsent(id, _buffRegistry, RegistryManager.CurrentModid);

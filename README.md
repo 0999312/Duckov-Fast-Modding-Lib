@@ -77,10 +77,11 @@ string dllPath = Assembly.GetExecutingAssembly().Location;
 | **经济** `EconomyUtils` | `AddMoney(1000)` | [§11](Docs/USAGE.md#11-经济系统economyutils) |
 | **Buff** `BuffUtils` | `RegisterBuff(id, prefab)` | [§12](Docs/USAGE.md#12-buff-状态效果buffutils) |
 | **建筑** `BuildingUtils` | `RegisterBuilding(id, info, prefab)` | [§13](Docs/USAGE.md#13-建筑系统buildingutils) |
-| **Perk** `PerkTreeUtils` | `AddPerk(tree, name, req, icon, modid)` | [§14](Docs/USAGE.md#14-perk-技能树perktreeutils) |
-| **敌人** `EnemyUtils` | `RegisterEnemy(id, aiConfig, preset)` | [§15](Docs/USAGE.md#15-敌人系统enemyutils) |
-| **设置面板** `ModOptionsRegistry` | `RegisterPanel(modId, name, builder)` | [§16](Docs/USAGE.md#16-自定义设置面板modoptionsregistry) |
-| **AssetBundle** `AssetUtil` | `LoadBundle("weapons")` | [§17](Docs/USAGE.md#17-assetbundle-加载assetutil) |
+| **Perk** `PerkTreeUtils` | `AddPerk(id, req, icon)` | [§14](Docs/USAGE.md#14-perk-技能树perktreeutils) |
+| **天赋** `EndowmentUtils` | `RegisterEndowment(id, entry)` | [§15](Docs/USAGE.md#15-天赋系统endowmentutils) |
+| **敌人** `EnemyUtils` | `RegisterEnemy(id, aiConfig, preset)` | [§16](Docs/USAGE.md#16-敌人系统enemyutils) |
+| **设置面板** `ModOptionsRegistry` | `RegisterPanel(modId, name, builder)` | [§17](Docs/USAGE.md#17-自定义设置面板modoptionsregistry) |
+| **AssetBundle** `AssetUtil` | `LoadBundle("weapons")` | [§18](Docs/USAGE.md#18-assetbundle-加载assetutil) |
 
 ### 卸载生命周期
 
@@ -92,7 +93,7 @@ EventBusManager.Clear()         → 清空 handler
 RegistryManager.RemoveAllByOwner() → 批量卸载全部资源
 ```
 
-无需手动处理卸载逻辑。详见 [Docs/USAGE.md §19](Docs/USAGE.md#19-模组卸载生命周期)。
+无需手动处理卸载逻辑。详见 [Docs/USAGE.md §20](Docs/USAGE.md#20-模组卸载生命周期)。
 
 ---
 

@@ -7,8 +7,9 @@ namespace FastModdingLib
     // ═══════════════════════════════════════════════════════════════
 
     /// <summary>
-    /// 配方中的单个物品条目。支持 Identifier 或 int typeID 两种引用方式。
-    /// <see cref="ItemId"/> 有值时优先解析为 typeID，解析失败回退到 <see cref="ItemTypeId"/>。
+    /// 配方中的单个物品条目。支持 Identifier、int typeID、标签匹配三种引用方式。
+    /// <see cref="ItemId"/> 有值时优先解析为 typeID；其次检查 <see cref="ItemTag"/> 按标签匹配；
+    /// 解析失败回退到 <see cref="ItemTypeId"/>。
     /// </summary>
     public struct ItemEntry
     {
@@ -20,6 +21,15 @@ namespace FastModdingLib
 
         /// <summary>数量。</summary>
         public int Amount;
+
+        /// <summary>🆕 可选：物品标签。设置后按标签匹配物品（如 "Food"、"Water"、"Pistol"）。</summary>
+        public string? ItemTag;
+
+        /// <summary>🆕 可选：最低品质要求。仅标签匹配时生效。</summary>
+        public int? MinQuality;
+
+        /// <summary>🆕 是否启用耐久度折算。true 时消耗量按物品当前耐久度比例折算。</summary>
+        public bool DurabilityCost;
 
         // ── 工厂方法 ──
 
@@ -44,7 +54,28 @@ namespace FastModdingLib
             Amount = amount
         };
 
-        /// <summary>解析为 int typeID。</summary>
+        /// <summary>🆕 按标签匹配物品。</summary>
+        /// <param name="tag">物品标签，如 "Food"、"Water"、"Pistol"。</param>
+        /// <param name="amount">数量。</param>
+        /// <param name="minQuality">可选：最低品质。</param>
+        public static ItemEntry ByTag(string tag, int amount, int? minQuality = null) => new ItemEntry()
+        {
+            ItemTag = tag,
+            Amount = amount,
+            MinQuality = minQuality
+        };
+
+        /// <summary>🆕 启用耐久度折算。</summary>
+        public ItemEntry WithDurabilityCost(bool enabled = true)
+        {
+            DurabilityCost = enabled;
+            return this;
+        }
+
+        /// <summary>是否为标签匹配模式（非精确 typeID）。</summary>
+        internal bool IsTagMatch => !string.IsNullOrEmpty(ItemTag);
+
+        /// <summary>解析为 int typeID（精确匹配）。</summary>
         internal int ResolveTypeId() => ItemUtils.ResolveItemRef(ItemId, ItemTypeId);
     }
 

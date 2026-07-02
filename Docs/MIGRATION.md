@@ -531,10 +531,15 @@ ModOptionsRegistry.RegisterPanel("mymod", "My Mod", builder =>
 
 ### PerkTreeUtils（全新）
 ```csharp
-Perk perk = PerkTreeUtils.AddPerk("combat", "ExtraHealth", req, icon, "MyMod");
-PerkTreeUtils.ConnectPerks("combat", "ExtraHealth", "IronWill");
-PerkTreeUtils.ForceUnlock("combat", "ExtraHealth");
-PerkTreeUtils.RemoveAllPerks("MyMod");
+Perk perk = PerkTreeUtils.AddPerk(
+    new Identifier("mymod", "ExtraHealth"), req, icon);
+
+PerkTreeUtils.ConnectPerks(
+    new Identifier("mymod", "ExtraHealth"),
+    new Identifier("mymod", "IronWill"));
+
+PerkTreeUtils.ForceUnlock(new Identifier("mymod", "ExtraHealth"));
+PerkTreeUtils.RemoveAllPerks("mymod");
 ```
 
 ### BuildingUtils（全新）
@@ -545,11 +550,18 @@ BuildingUtils.RegisterBuilding(
     buildingInfo, prefab
 );
 
-// 按建筑 id 查询 BuildingInfo
-var info = BuildingUtils.GetBuildingInfo("building_id");
+// 按 Identifier 查询 BuildingInfo
+BuildingInfo? info = BuildingUtils.GetBuildingInfo(
+    new Identifier("mymod", "workbench"));
 
-// 获取所有建筑 ID
-List<string> allIds = BuildingUtils.GetAllBuildingIds();
+// 获取所有建筑 Identifier
+IReadOnlyList<Identifier> allIds = BuildingUtils.GetAllBuildingIds();
+
+// 放置建筑
+BuildingUtils.PlaceBuilding(
+    new Identifier("base", "area1"),
+    new Identifier("mymod", "workbench"),
+    new Vector2Int(2, 2), BuildingRotation.Rot0);
 
 // 批量卸载
 BuildingUtils.UnregisterAllBuildings("MyMod");
@@ -602,14 +614,18 @@ public class MyGunMod : Duckov.Modding.ModBehaviour
 
 ### 新版 mod（使用最新 FML）
 ```csharp
-public class MyGunMod : FastModdingLib.ModBehaviour
+public class MyGunMod : Duckov.Modding.ModBehaviour, IHasModid
 {
     string dllPath = Assembly.GetExecutingAssembly().Location;
 
+    public string GetModid() => "mygunmod";
+
     protected override void OnAfterSetup()
     {
-        base.OnAfterSetup(); // 自动 Harmony + Registry + EventBus
-        I18n.InitI18n(dllPath);
+        ModPathResolver.Register(GetModid(), dllPath);
+        I18n.InitI18n(GetModid());
+        var harmony = new Harmony(GetModid());
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
         RegisterGuns();
     }
 
